@@ -1,5 +1,6 @@
 // The History tab: pick a past outbreak from data/ and show it.
 import type { Outbreak, OutbreakInfo } from "../shared/outbreak";
+import { drawOutbreak, fitChartTo } from "./chart";
 
 // How the tab gets its data. index.ts passes in the RPC requests; the tab
 // itself does not know about the main process.
@@ -12,6 +13,8 @@ export interface HistorySource {
 const picker = document.querySelector<HTMLSelectElement>("#outbreak")!;
 const summary = document.querySelector<HTMLParagraphElement>("#outbreak-summary")!;
 const sourceLine = document.querySelector<HTMLParagraphElement>("#outbreak-source")!;
+const chartBox = document.querySelector<HTMLDivElement>("#outbreak-chart")!;
+fitChartTo(chartBox);
 
 // One line under the picker, for example
 // "92 days, 1918-09-01 to 1918-11-30. 1,234 cases, deaths not reported."
@@ -54,6 +57,7 @@ async function show(source: HistorySource, id: string): Promise<void> {
 		// The user may have picked another outbreak while this one loaded.
 		if (picker.value !== id) return;
 		summary.textContent = summarise(outbreak);
+		drawOutbreak(chartBox, outbreak);
 		sourceLine.textContent = describeSource(outbreak);
 	} catch (err) {
 		summary.textContent = `could not load ${id}: ${err}`;

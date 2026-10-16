@@ -3,6 +3,7 @@
 	--fg: #1a1a1a;
 	--muted: #6b6b6b;
 	--line: #d6d6d6;
+	--accent: #b0392b;
 	color-scheme: light dark;
 }
 
@@ -12,6 +13,7 @@
 		--fg: #e6e6e6;
 		--muted: #9a9a9a;
 		--line: #3a3a3a;
+		--accent: #e2705f;
 	}
 }
 
@@ -83,4 +85,13 @@ select {
 
 nav button[aria-pressed="true"] {
 	border-color: var(--fg);
+}
+
+/* uPlot brings its own stylesheet (uplot.css); keep the house font. */
+.uplot {
+	font-family: inherit;
+}
+
+#outbreak-chart {
+	margin: 1rem 0;
 }

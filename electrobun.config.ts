@@ -25,6 +25,7 @@ export default {
 		copy: {
 			"src/mainview/index.html": "views/mainview/index.html",
 			"src/mainview/style.css": "views/mainview/style.css",
+			"node_modules/uplot/dist/uPlot.min.css": "views/mainview/uplot.css",
 			r: "r",
 			data: "data",
 		},

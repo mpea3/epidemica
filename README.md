@@ -177,7 +177,7 @@ flowchart LR
 | Main process | Bun runtime |
 | Language | TypeScript everywhere in the app |
 | Simulation drawing | Canvas 2D |
-| Charts | uPlot (to confirm when the first chart is built) |
+| Charts | uPlot 1.6.32 |
 | Data analysis | R 4.5 |
 | Look | Plain monospace, light and dark from the system setting |
 
@@ -194,7 +194,10 @@ epidemica/
 ├── src/
 │   ├── bun/index.ts        main process: window, RPC handlers, Rscript bridge
 │   ├── shared/rpc.ts       RPC types shared by main process and webview
+│   ├── shared/outbreak.ts  the data/*.json shape, rows to columns
 │   ├── mainview/           the UI: index.html, index.ts, style.css
+│   │   ├── history.ts      History tab: outbreak picker, summary, source
+│   │   └── chart.ts        cases and deaths panels (uPlot)
 │   └── engine/             the simulation: types, engine, worker
 ├── r/
 │   ├── install.R           installs the R packages
@@ -242,7 +245,7 @@ Rscript r/fetch_flu1918.R     # or any other fetch_*.R
 - [x] README and project outline
 - [x] App skeleton: window, History and Simulate tabs, R bridge, engine worker
 - [x] R pipeline for the four outbreaks, with exploratory analysis
-- [ ] First History chart from `data/*.json`
+- [x] First History chart from `data/*.json`: cases and deaths in stacked panels with a shared time axis (two y-axes would make the scales look comparable when they are not)
 - [x] Engine passes the SIR final-size test
 
 **Final**

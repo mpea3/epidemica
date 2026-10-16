@@ -4,6 +4,9 @@
   "workspaces": {
     "": {
       "name": "epidemica",
+      "dependencies": {
+        "uplot": "1.6.32",
+      },
       "devDependencies": {
         "@types/bun": "1.4.0",
         "typescript": "5.9.3",
@@ -17,8 +20,10 @@
 
     "bun-types": ["bun-types@1.4.0", "https://registry.npmjs.org/bun-types/-/bun-types-1.4.0.tgz", {"dependencies": {"@types/node": "*"}}, "sha512-iIKw23BspnQQYd3prITOBxeUsxBHnwzX6YJfGMuNOZzeNcMmVqzIIVGRm1l69ogaPQmb4wB6BN8mA5bE9YuC5Q=="],
 
-    "typescript": ["typescript@5.9.3", "https://registry.npmjs.org/typescript/-/typescript-5.9.3.tgz", {"bin": {"tsc": "bin/tsc", "tsserver": "bin/tsserver"}}, "sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw=="],
+    "typescript": ["typescript@5.9.3", "https://registry.npmjs.org/typescript/-/typescript-5.9.3.tgz", {"bin": {"tsc": "./bin/tsc", "tsserver": "./bin/tsserver"}}, "sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw=="],
 
     "undici-types": ["undici-types@8.9.0", "https://registry.npmjs.org/undici-types/-/undici-types-8.9.0.tgz", {}, "sha512-KTDyRTYX8sWmKXAikPHHSyc63CRPETMctyjKFupcC6OBLXT3xsN0e9aF7m+mIXutFWpUXuedtowG7iLOzp0kQg=="],
+
+    "uplot": ["uplot@1.6.32", "https://registry.npmjs.org/uplot/-/uplot-1.6.32.tgz", {}, "sha512-KIMVnG68zvu5XXUbC4LQEPnhwOxBuLyW1AHtpm6IKTXImkbLgkMy+jabjLgSLMasNuGGzQm/ep3tOkyTxpiQIw=="],
   }
 }
