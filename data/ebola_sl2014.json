@@ -1,0 +1,2910 @@
+{
+  "id": "ebola_sl2014",
+  "name": "Ebola, Sierra Leone 2014-15",
+  "source": "outbreaks::ebola_sierraleone_2014 (Fang et al. 2016, PNAS 113)",
+  "url": "https://cran.r-project.org/package=outbreaks",
+  "accessed": "2026-10-16",
+  "licence": "GPL (>= 2) (outbreaks package)",
+  "interval": "day",
+  "notes": "Confirmed and suspected cases by day of symptom onset; confirmed is the confirmed part only. No deaths in this line list.",
+  "series": [
+    {
+      "date": "2014-05-18",
+      "cases": 1,
+      "deaths": null,
+      "confirmed": 1
+    },
+    {
+      "date": "2014-05-19",
+      "cases": 0,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2014-05-20",
+      "cases": 2,
+      "deaths": null,
+      "confirmed": 2
+    },
+    {
+      "date": "2014-05-21",
+      "cases": 4,
+      "deaths": null,
+      "confirmed": 4
+    },
+    {
+      "date": "2014-05-22",
+      "cases": 6,
+      "deaths": null,
+      "confirmed": 6
+    },
+    {
+      "date": "2014-05-23",
+      "cases": 1,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2014-05-24",
+      "cases": 2,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2014-05-25",
+      "cases": 0,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2014-05-26",
+      "cases": 10,
+      "deaths": null,
+      "confirmed": 1
+    },
+    {
+      "date": "2014-05-27",
+      "cases": 8,
+      "deaths": null,
+      "confirmed": 3
+    },
+    {
+      "date": "2014-05-28",
+      "cases": 2,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2014-05-29",
+      "cases": 12,
+      "deaths": null,
+      "confirmed": 7
+    },
+    {
+      "date": "2014-05-30",
+      "cases": 7,
+      "deaths": null,
+      "confirmed": 7
+    },
+    {
+      "date": "2014-05-31",
+      "cases": 2,
+      "deaths": null,
+      "confirmed": 2
+    },
+    {
+      "date": "2014-06-01",
+      "cases": 5,
+      "deaths": null,
+      "confirmed": 5
+    },
+    {
+      "date": "2014-06-02",
+      "cases": 2,
+      "deaths": null,
+      "confirmed": 2
+    },
+    {
+      "date": "2014-06-03",
+      "cases": 1,
+      "deaths": null,
+      "confirmed": 1
+    },
+    {
+      "date": "2014-06-04",
+      "cases": 0,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2014-06-05",
+      "cases": 3,
+      "deaths": null,
+      "confirmed": 3
+    },
+    {
+      "date": "2014-06-06",
+      "cases": 7,
+      "deaths": null,
+      "confirmed": 7
+    },
+    {
+      "date": "2014-06-07",
+      "cases": 4,
+      "deaths": null,
+      "confirmed": 4
+    },
+    {
+      "date": "2014-06-08",
+      "cases": 6,
+      "deaths": null,
+      "confirmed": 6
+    },
+    {
+      "date": "2014-06-09",
+      "cases": 1,
+      "deaths": null,
+      "confirmed": 1
+    },
+    {
+      "date": "2014-06-10",
+      "cases": 29,
+      "deaths": null,
+      "confirmed": 29
+    },
+    {
+      "date": "2014-06-11",
+      "cases": 1,
+      "deaths": null,
+      "confirmed": 1
+    },
+    {
+      "date": "2014-06-12",
+      "cases": 10,
+      "deaths": null,
+      "confirmed": 10
+    },
+    {
+      "date": "2014-06-13",
+      "cases": 20,
+      "deaths": null,
+      "confirmed": 20
+    },
+    {
+      "date": "2014-06-14",
+      "cases": 17,
+      "deaths": null,
+      "confirmed": 17
+    },
+    {
+      "date": "2014-06-15",
+      "cases": 4,
+      "deaths": null,
+      "confirmed": 4
+    },
+    {
+      "date": "2014-06-16",
+      "cases": 1,
+      "deaths": null,
+      "confirmed": 1
+    },
+    {
+      "date": "2014-06-17",
+      "cases": 4,
+      "deaths": null,
+      "confirmed": 4
+    },
+    {
+      "date": "2014-06-18",
+      "cases": 8,
+      "deaths": null,
+      "confirmed": 8
+    },
+    {
+      "date": "2014-06-19",
+      "cases": 11,
+      "deaths": null,
+      "confirmed": 11
+    },
+    {
+      "date": "2014-06-20",
+      "cases": 9,
+      "deaths": null,
+      "confirmed": 9
+    },
+    {
+      "date": "2014-06-21",
+      "cases": 3,
+      "deaths": null,
+      "confirmed": 3
+    },
+    {
+      "date": "2014-06-22",
+      "cases": 3,
+      "deaths": null,
+      "confirmed": 3
+    },
+    {
+      "date": "2014-06-23",
+      "cases": 2,
+      "deaths": null,
+      "confirmed": 2
+    },
+    {
+      "date": "2014-06-24",
+      "cases": 9,
+      "deaths": null,
+      "confirmed": 9
+    },
+    {
+      "date": "2014-06-25",
+      "cases": 9,
+      "deaths": null,
+      "confirmed": 9
+    },
+    {
+      "date": "2014-06-26",
+      "cases": 14,
+      "deaths": null,
+      "confirmed": 14
+    },
+    {
+      "date": "2014-06-27",
+      "cases": 15,
+      "deaths": null,
+      "confirmed": 15
+    },
+    {
+      "date": "2014-06-28",
+      "cases": 21,
+      "deaths": null,
+      "confirmed": 21
+    },
+    {
+      "date": "2014-06-29",
+      "cases": 9,
+      "deaths": null,
+      "confirmed": 9
+    },
+    {
+      "date": "2014-06-30",
+      "cases": 15,
+      "deaths": null,
+      "confirmed": 15
+    },
+    {
+      "date": "2014-07-01",
+      "cases": 12,
+      "deaths": null,
+      "confirmed": 12
+    },
+    {
+      "date": "2014-07-02",
+      "cases": 11,
+      "deaths": null,
+      "confirmed": 11
+    },
+    {
+      "date": "2014-07-03",
+      "cases": 4,
+      "deaths": null,
+      "confirmed": 4
+    },
+    {
+      "date": "2014-07-04",
+      "cases": 11,
+      "deaths": null,
+      "confirmed": 11
+    },
+    {
+      "date": "2014-07-05",
+      "cases": 17,
+      "deaths": null,
+      "confirmed": 17
+    },
+    {
+      "date": "2014-07-06",
+      "cases": 9,
+      "deaths": null,
+      "confirmed": 9
+    },
+    {
+      "date": "2014-07-07",
+      "cases": 18,
+      "deaths": null,
+      "confirmed": 18
+    },
+    {
+      "date": "2014-07-08",
+      "cases": 11,
+      "deaths": null,
+      "confirmed": 11
+    },
+    {
+      "date": "2014-07-09",
+      "cases": 8,
+      "deaths": null,
+      "confirmed": 8
+    },
+    {
+      "date": "2014-07-10",
+      "cases": 14,
+      "deaths": null,
+      "confirmed": 14
+    },
+    {
+      "date": "2014-07-11",
+      "cases": 8,
+      "deaths": null,
+      "confirmed": 8
+    },
+    {
+      "date": "2014-07-12",
+      "cases": 7,
+      "deaths": null,
+      "confirmed": 6
+    },
+    {
+      "date": "2014-07-13",
+      "cases": 4,
+      "deaths": null,
+      "confirmed": 4
+    },
+    {
+      "date": "2014-07-14",
+      "cases": 7,
+      "deaths": null,
+      "confirmed": 7
+    },
+    {
+      "date": "2014-07-15",
+      "cases": 5,
+      "deaths": null,
+      "confirmed": 5
+    },
+    {
+      "date": "2014-07-16",
+      "cases": 7,
+      "deaths": null,
+      "confirmed": 7
+    },
+    {
+      "date": "2014-07-17",
+      "cases": 8,
+      "deaths": null,
+      "confirmed": 8
+    },
+    {
+      "date": "2014-07-18",
+      "cases": 10,
+      "deaths": null,
+      "confirmed": 9
+    },
+    {
+      "date": "2014-07-19",
+      "cases": 13,
+      "deaths": null,
+      "confirmed": 13
+    },
+    {
+      "date": "2014-07-20",
+      "cases": 13,
+      "deaths": null,
+      "confirmed": 12
+    },
+    {
+      "date": "2014-07-21",
+      "cases": 18,
+      "deaths": null,
+      "confirmed": 18
+    },
+    {
+      "date": "2014-07-22",
+      "cases": 9,
+      "deaths": null,
+      "confirmed": 9
+    },
+    {
+      "date": "2014-07-23",
+      "cases": 13,
+      "deaths": null,
+      "confirmed": 12
+    },
+    {
+      "date": "2014-07-24",
+      "cases": 10,
+      "deaths": null,
+      "confirmed": 10
+    },
+    {
+      "date": "2014-07-25",
+      "cases": 40,
+      "deaths": null,
+      "confirmed": 7
+    },
+    {
+      "date": "2014-07-26",
+      "cases": 8,
+      "deaths": null,
+      "confirmed": 8
+    },
+    {
+      "date": "2014-07-27",
+      "cases": 7,
+      "deaths": null,
+      "confirmed": 7
+    },
+    {
+      "date": "2014-07-28",
+      "cases": 14,
+      "deaths": null,
+      "confirmed": 14
+    },
+    {
+      "date": "2014-07-29",
+      "cases": 9,
+      "deaths": null,
+      "confirmed": 9
+    },
+    {
+      "date": "2014-07-30",
+      "cases": 14,
+      "deaths": null,
+      "confirmed": 14
+    },
+    {
+      "date": "2014-07-31",
+      "cases": 12,
+      "deaths": null,
+      "confirmed": 12
+    },
+    {
+      "date": "2014-08-01",
+      "cases": 12,
+      "deaths": null,
+      "confirmed": 12
+    },
+    {
+      "date": "2014-08-02",
+      "cases": 15,
+      "deaths": null,
+      "confirmed": 15
+    },
+    {
+      "date": "2014-08-03",
+      "cases": 14,
+      "deaths": null,
+      "confirmed": 14
+    },
+    {
+      "date": "2014-08-04",
+      "cases": 5,
+      "deaths": null,
+      "confirmed": 5
+    },
+    {
+      "date": "2014-08-05",
+      "cases": 13,
+      "deaths": null,
+      "confirmed": 12
+    },
+    {
+      "date": "2014-08-06",
+      "cases": 8,
+      "deaths": null,
+      "confirmed": 8
+    },
+    {
+      "date": "2014-08-07",
+      "cases": 8,
+      "deaths": null,
+      "confirmed": 8
+    },
+    {
+      "date": "2014-08-08",
+      "cases": 13,
+      "deaths": null,
+      "confirmed": 13
+    },
+    {
+      "date": "2014-08-09",
+      "cases": 8,
+      "deaths": null,
+      "confirmed": 6
+    },
+    {
+      "date": "2014-08-10",
+      "cases": 13,
+      "deaths": null,
+      "confirmed": 6
+    },
+    {
+      "date": "2014-08-11",
+      "cases": 4,
+      "deaths": null,
+      "confirmed": 1
+    },
+    {
+      "date": "2014-08-12",
+      "cases": 9,
+      "deaths": null,
+      "confirmed": 5
+    },
+    {
+      "date": "2014-08-13",
+      "cases": 6,
+      "deaths": null,
+      "confirmed": 4
+    },
+    {
+      "date": "2014-08-14",
+      "cases": 8,
+      "deaths": null,
+      "confirmed": 6
+    },
+    {
+      "date": "2014-08-15",
+      "cases": 5,
+      "deaths": null,
+      "confirmed": 4
+    },
+    {
+      "date": "2014-08-16",
+      "cases": 1,
+      "deaths": null,
+      "confirmed": 1
+    },
+    {
+      "date": "2014-08-17",
+      "cases": 5,
+      "deaths": null,
+      "confirmed": 5
+    },
+    {
+      "date": "2014-08-18",
+      "cases": 17,
+      "deaths": null,
+      "confirmed": 15
+    },
+    {
+      "date": "2014-08-19",
+      "cases": 18,
+      "deaths": null,
+      "confirmed": 16
+    },
+    {
+      "date": "2014-08-20",
+      "cases": 35,
+      "deaths": null,
+      "confirmed": 26
+    },
+    {
+      "date": "2014-08-21",
+      "cases": 18,
+      "deaths": null,
+      "confirmed": 15
+    },
+    {
+      "date": "2014-08-22",
+      "cases": 16,
+      "deaths": null,
+      "confirmed": 12
+    },
+    {
+      "date": "2014-08-23",
+      "cases": 18,
+      "deaths": null,
+      "confirmed": 16
+    },
+    {
+      "date": "2014-08-24",
+      "cases": 38,
+      "deaths": null,
+      "confirmed": 35
+    },
+    {
+      "date": "2014-08-25",
+      "cases": 25,
+      "deaths": null,
+      "confirmed": 24
+    },
+    {
+      "date": "2014-08-26",
+      "cases": 42,
+      "deaths": null,
+      "confirmed": 41
+    },
+    {
+      "date": "2014-08-27",
+      "cases": 16,
+      "deaths": null,
+      "confirmed": 14
+    },
+    {
+      "date": "2014-08-28",
+      "cases": 26,
+      "deaths": null,
+      "confirmed": 23
+    },
+    {
+      "date": "2014-08-29",
+      "cases": 30,
+      "deaths": null,
+      "confirmed": 28
+    },
+    {
+      "date": "2014-08-30",
+      "cases": 23,
+      "deaths": null,
+      "confirmed": 19
+    },
+    {
+      "date": "2014-08-31",
+      "cases": 24,
+      "deaths": null,
+      "confirmed": 22
+    },
+    {
+      "date": "2014-09-01",
+      "cases": 29,
+      "deaths": null,
+      "confirmed": 26
+    },
+    {
+      "date": "2014-09-02",
+      "cases": 29,
+      "deaths": null,
+      "confirmed": 26
+    },
+    {
+      "date": "2014-09-03",
+      "cases": 43,
+      "deaths": null,
+      "confirmed": 41
+    },
+    {
+      "date": "2014-09-04",
+      "cases": 41,
+      "deaths": null,
+      "confirmed": 37
+    },
+    {
+      "date": "2014-09-05",
+      "cases": 15,
+      "deaths": null,
+      "confirmed": 14
+    },
+    {
+      "date": "2014-09-06",
+      "cases": 44,
+      "deaths": null,
+      "confirmed": 37
+    },
+    {
+      "date": "2014-09-07",
+      "cases": 30,
+      "deaths": null,
+      "confirmed": 27
+    },
+    {
+      "date": "2014-09-08",
+      "cases": 42,
+      "deaths": null,
+      "confirmed": 32
+    },
+    {
+      "date": "2014-09-09",
+      "cases": 38,
+      "deaths": null,
+      "confirmed": 33
+    },
+    {
+      "date": "2014-09-10",
+      "cases": 21,
+      "deaths": null,
+      "confirmed": 16
+    },
+    {
+      "date": "2014-09-11",
+      "cases": 39,
+      "deaths": null,
+      "confirmed": 36
+    },
+    {
+      "date": "2014-09-12",
+      "cases": 37,
+      "deaths": null,
+      "confirmed": 33
+    },
+    {
+      "date": "2014-09-13",
+      "cases": 38,
+      "deaths": null,
+      "confirmed": 36
+    },
+    {
+      "date": "2014-09-14",
+      "cases": 49,
+      "deaths": null,
+      "confirmed": 45
+    },
+    {
+      "date": "2014-09-15",
+      "cases": 68,
+      "deaths": null,
+      "confirmed": 60
+    },
+    {
+      "date": "2014-09-16",
+      "cases": 84,
+      "deaths": null,
+      "confirmed": 74
+    },
+    {
+      "date": "2014-09-17",
+      "cases": 56,
+      "deaths": null,
+      "confirmed": 48
+    },
+    {
+      "date": "2014-09-18",
+      "cases": 68,
+      "deaths": null,
+      "confirmed": 63
+    },
+    {
+      "date": "2014-09-19",
+      "cases": 66,
+      "deaths": null,
+      "confirmed": 57
+    },
+    {
+      "date": "2014-09-20",
+      "cases": 76,
+      "deaths": null,
+      "confirmed": 63
+    },
+    {
+      "date": "2014-09-21",
+      "cases": 46,
+      "deaths": null,
+      "confirmed": 42
+    },
+    {
+      "date": "2014-09-22",
+      "cases": 58,
+      "deaths": null,
+      "confirmed": 52
+    },
+    {
+      "date": "2014-09-23",
+      "cases": 54,
+      "deaths": null,
+      "confirmed": 47
+    },
+    {
+      "date": "2014-09-24",
+      "cases": 55,
+      "deaths": null,
+      "confirmed": 42
+    },
+    {
+      "date": "2014-09-25",
+      "cases": 74,
+      "deaths": null,
+      "confirmed": 66
+    },
+    {
+      "date": "2014-09-26",
+      "cases": 68,
+      "deaths": null,
+      "confirmed": 53
+    },
+    {
+      "date": "2014-09-27",
+      "cases": 62,
+      "deaths": null,
+      "confirmed": 52
+    },
+    {
+      "date": "2014-09-28",
+      "cases": 61,
+      "deaths": null,
+      "confirmed": 57
+    },
+    {
+      "date": "2014-09-29",
+      "cases": 47,
+      "deaths": null,
+      "confirmed": 34
+    },
+    {
+      "date": "2014-09-30",
+      "cases": 66,
+      "deaths": null,
+      "confirmed": 60
+    },
+    {
+      "date": "2014-10-01",
+      "cases": 56,
+      "deaths": null,
+      "confirmed": 52
+    },
+    {
+      "date": "2014-10-02",
+      "cases": 64,
+      "deaths": null,
+      "confirmed": 56
+    },
+    {
+      "date": "2014-10-03",
+      "cases": 60,
+      "deaths": null,
+      "confirmed": 58
+    },
+    {
+      "date": "2014-10-04",
+      "cases": 79,
+      "deaths": null,
+      "confirmed": 73
+    },
+    {
+      "date": "2014-10-05",
+      "cases": 80,
+      "deaths": null,
+      "confirmed": 58
+    },
+    {
+      "date": "2014-10-06",
+      "cases": 76,
+      "deaths": null,
+      "confirmed": 63
+    },
+    {
+      "date": "2014-10-07",
+      "cases": 80,
+      "deaths": null,
+      "confirmed": 67
+    },
+    {
+      "date": "2014-10-08",
+      "cases": 63,
+      "deaths": null,
+      "confirmed": 59
+    },
+    {
+      "date": "2014-10-09",
+      "cases": 58,
+      "deaths": null,
+      "confirmed": 55
+    },
+    {
+      "date": "2014-10-10",
+      "cases": 86,
+      "deaths": null,
+      "confirmed": 76
+    },
+    {
+      "date": "2014-10-11",
+      "cases": 56,
+      "deaths": null,
+      "confirmed": 49
+    },
+    {
+      "date": "2014-10-12",
+      "cases": 78,
+      "deaths": null,
+      "confirmed": 70
+    },
+    {
+      "date": "2014-10-13",
+      "cases": 47,
+      "deaths": null,
+      "confirmed": 42
+    },
+    {
+      "date": "2014-10-14",
+      "cases": 58,
+      "deaths": null,
+      "confirmed": 53
+    },
+    {
+      "date": "2014-10-15",
+      "cases": 57,
+      "deaths": null,
+      "confirmed": 55
+    },
+    {
+      "date": "2014-10-16",
+      "cases": 51,
+      "deaths": null,
+      "confirmed": 46
+    },
+    {
+      "date": "2014-10-17",
+      "cases": 59,
+      "deaths": null,
+      "confirmed": 54
+    },
+    {
+      "date": "2014-10-18",
+      "cases": 49,
+      "deaths": null,
+      "confirmed": 43
+    },
+    {
+      "date": "2014-10-19",
+      "cases": 72,
+      "deaths": null,
+      "confirmed": 61
+    },
+    {
+      "date": "2014-10-20",
+      "cases": 117,
+      "deaths": null,
+      "confirmed": 105
+    },
+    {
+      "date": "2014-10-21",
+      "cases": 46,
+      "deaths": null,
+      "confirmed": 43
+    },
+    {
+      "date": "2014-10-22",
+      "cases": 70,
+      "deaths": null,
+      "confirmed": 65
+    },
+    {
+      "date": "2014-10-23",
+      "cases": 63,
+      "deaths": null,
+      "confirmed": 56
+    },
+    {
+      "date": "2014-10-24",
+      "cases": 73,
+      "deaths": null,
+      "confirmed": 60
+    },
+    {
+      "date": "2014-10-25",
+      "cases": 76,
+      "deaths": null,
+      "confirmed": 70
+    },
+    {
+      "date": "2014-10-26",
+      "cases": 81,
+      "deaths": null,
+      "confirmed": 69
+    },
+    {
+      "date": "2014-10-27",
+      "cases": 71,
+      "deaths": null,
+      "confirmed": 62
+    },
+    {
+      "date": "2014-10-28",
+      "cases": 48,
+      "deaths": null,
+      "confirmed": 42
+    },
+    {
+      "date": "2014-10-29",
+      "cases": 44,
+      "deaths": null,
+      "confirmed": 36
+    },
+    {
+      "date": "2014-10-30",
+      "cases": 54,
+      "deaths": null,
+      "confirmed": 48
+    },
+    {
+      "date": "2014-10-31",
+      "cases": 47,
+      "deaths": null,
+      "confirmed": 42
+    },
+    {
+      "date": "2014-11-01",
+      "cases": 70,
+      "deaths": null,
+      "confirmed": 68
+    },
+    {
+      "date": "2014-11-02",
+      "cases": 83,
+      "deaths": null,
+      "confirmed": 78
+    },
+    {
+      "date": "2014-11-03",
+      "cases": 51,
+      "deaths": null,
+      "confirmed": 47
+    },
+    {
+      "date": "2014-11-04",
+      "cases": 70,
+      "deaths": null,
+      "confirmed": 63
+    },
+    {
+      "date": "2014-11-05",
+      "cases": 75,
+      "deaths": null,
+      "confirmed": 71
+    },
+    {
+      "date": "2014-11-06",
+      "cases": 108,
+      "deaths": null,
+      "confirmed": 96
+    },
+    {
+      "date": "2014-11-07",
+      "cases": 71,
+      "deaths": null,
+      "confirmed": 62
+    },
+    {
+      "date": "2014-11-08",
+      "cases": 81,
+      "deaths": null,
+      "confirmed": 78
+    },
+    {
+      "date": "2014-11-09",
+      "cases": 73,
+      "deaths": null,
+      "confirmed": 66
+    },
+    {
+      "date": "2014-11-10",
+      "cases": 104,
+      "deaths": null,
+      "confirmed": 89
+    },
+    {
+      "date": "2014-11-11",
+      "cases": 81,
+      "deaths": null,
+      "confirmed": 70
+    },
+    {
+      "date": "2014-11-12",
+      "cases": 45,
+      "deaths": null,
+      "confirmed": 43
+    },
+    {
+      "date": "2014-11-13",
+      "cases": 57,
+      "deaths": null,
+      "confirmed": 43
+    },
+    {
+      "date": "2014-11-14",
+      "cases": 66,
+      "deaths": null,
+      "confirmed": 59
+    },
+    {
+      "date": "2014-11-15",
+      "cases": 82,
+      "deaths": null,
+      "confirmed": 75
+    },
+    {
+      "date": "2014-11-16",
+      "cases": 70,
+      "deaths": null,
+      "confirmed": 63
+    },
+    {
+      "date": "2014-11-17",
+      "cases": 77,
+      "deaths": null,
+      "confirmed": 70
+    },
+    {
+      "date": "2014-11-18",
+      "cases": 98,
+      "deaths": null,
+      "confirmed": 71
+    },
+    {
+      "date": "2014-11-19",
+      "cases": 77,
+      "deaths": null,
+      "confirmed": 59
+    },
+    {
+      "date": "2014-11-20",
+      "cases": 99,
+      "deaths": null,
+      "confirmed": 74
+    },
+    {
+      "date": "2014-11-21",
+      "cases": 70,
+      "deaths": null,
+      "confirmed": 56
+    },
+    {
+      "date": "2014-11-22",
+      "cases": 63,
+      "deaths": null,
+      "confirmed": 46
+    },
+    {
+      "date": "2014-11-23",
+      "cases": 88,
+      "deaths": null,
+      "confirmed": 66
+    },
+    {
+      "date": "2014-11-24",
+      "cases": 79,
+      "deaths": null,
+      "confirmed": 56
+    },
+    {
+      "date": "2014-11-25",
+      "cases": 63,
+      "deaths": null,
+      "confirmed": 46
+    },
+    {
+      "date": "2014-11-26",
+      "cases": 68,
+      "deaths": null,
+      "confirmed": 62
+    },
+    {
+      "date": "2014-11-27",
+      "cases": 65,
+      "deaths": null,
+      "confirmed": 52
+    },
+    {
+      "date": "2014-11-28",
+      "cases": 39,
+      "deaths": null,
+      "confirmed": 31
+    },
+    {
+      "date": "2014-11-29",
+      "cases": 37,
+      "deaths": null,
+      "confirmed": 30
+    },
+    {
+      "date": "2014-11-30",
+      "cases": 47,
+      "deaths": null,
+      "confirmed": 39
+    },
+    {
+      "date": "2014-12-01",
+      "cases": 55,
+      "deaths": null,
+      "confirmed": 37
+    },
+    {
+      "date": "2014-12-02",
+      "cases": 51,
+      "deaths": null,
+      "confirmed": 37
+    },
+    {
+      "date": "2014-12-03",
+      "cases": 39,
+      "deaths": null,
+      "confirmed": 30
+    },
+    {
+      "date": "2014-12-04",
+      "cases": 59,
+      "deaths": null,
+      "confirmed": 45
+    },
+    {
+      "date": "2014-12-05",
+      "cases": 52,
+      "deaths": null,
+      "confirmed": 36
+    },
+    {
+      "date": "2014-12-06",
+      "cases": 55,
+      "deaths": null,
+      "confirmed": 40
+    },
+    {
+      "date": "2014-12-07",
+      "cases": 40,
+      "deaths": null,
+      "confirmed": 30
+    },
+    {
+      "date": "2014-12-08",
+      "cases": 46,
+      "deaths": null,
+      "confirmed": 37
+    },
+    {
+      "date": "2014-12-09",
+      "cases": 71,
+      "deaths": null,
+      "confirmed": 57
+    },
+    {
+      "date": "2014-12-10",
+      "cases": 69,
+      "deaths": null,
+      "confirmed": 61
+    },
+    {
+      "date": "2014-12-11",
+      "cases": 41,
+      "deaths": null,
+      "confirmed": 34
+    },
+    {
+      "date": "2014-12-12",
+      "cases": 57,
+      "deaths": null,
+      "confirmed": 45
+    },
+    {
+      "date": "2014-12-13",
+      "cases": 39,
+      "deaths": null,
+      "confirmed": 29
+    },
+    {
+      "date": "2014-12-14",
+      "cases": 52,
+      "deaths": null,
+      "confirmed": 42
+    },
+    {
+      "date": "2014-12-15",
+      "cases": 55,
+      "deaths": null,
+      "confirmed": 38
+    },
+    {
+      "date": "2014-12-16",
+      "cases": 56,
+      "deaths": null,
+      "confirmed": 36
+    },
+    {
+      "date": "2014-12-17",
+      "cases": 49,
+      "deaths": null,
+      "confirmed": 39
+    },
+    {
+      "date": "2014-12-18",
+      "cases": 53,
+      "deaths": null,
+      "confirmed": 39
+    },
+    {
+      "date": "2014-12-19",
+      "cases": 60,
+      "deaths": null,
+      "confirmed": 45
+    },
+    {
+      "date": "2014-12-20",
+      "cases": 64,
+      "deaths": null,
+      "confirmed": 55
+    },
+    {
+      "date": "2014-12-21",
+      "cases": 50,
+      "deaths": null,
+      "confirmed": 43
+    },
+    {
+      "date": "2014-12-22",
+      "cases": 60,
+      "deaths": null,
+      "confirmed": 48
+    },
+    {
+      "date": "2014-12-23",
+      "cases": 41,
+      "deaths": null,
+      "confirmed": 32
+    },
+    {
+      "date": "2014-12-24",
+      "cases": 62,
+      "deaths": null,
+      "confirmed": 50
+    },
+    {
+      "date": "2014-12-25",
+      "cases": 53,
+      "deaths": null,
+      "confirmed": 36
+    },
+    {
+      "date": "2014-12-26",
+      "cases": 57,
+      "deaths": null,
+      "confirmed": 41
+    },
+    {
+      "date": "2014-12-27",
+      "cases": 56,
+      "deaths": null,
+      "confirmed": 34
+    },
+    {
+      "date": "2014-12-28",
+      "cases": 42,
+      "deaths": null,
+      "confirmed": 30
+    },
+    {
+      "date": "2014-12-29",
+      "cases": 62,
+      "deaths": null,
+      "confirmed": 42
+    },
+    {
+      "date": "2014-12-30",
+      "cases": 45,
+      "deaths": null,
+      "confirmed": 27
+    },
+    {
+      "date": "2014-12-31",
+      "cases": 44,
+      "deaths": null,
+      "confirmed": 25
+    },
+    {
+      "date": "2015-01-01",
+      "cases": 52,
+      "deaths": null,
+      "confirmed": 33
+    },
+    {
+      "date": "2015-01-02",
+      "cases": 50,
+      "deaths": null,
+      "confirmed": 28
+    },
+    {
+      "date": "2015-01-03",
+      "cases": 37,
+      "deaths": null,
+      "confirmed": 30
+    },
+    {
+      "date": "2015-01-04",
+      "cases": 50,
+      "deaths": null,
+      "confirmed": 25
+    },
+    {
+      "date": "2015-01-05",
+      "cases": 54,
+      "deaths": null,
+      "confirmed": 42
+    },
+    {
+      "date": "2015-01-06",
+      "cases": 50,
+      "deaths": null,
+      "confirmed": 32
+    },
+    {
+      "date": "2015-01-07",
+      "cases": 43,
+      "deaths": null,
+      "confirmed": 28
+    },
+    {
+      "date": "2015-01-08",
+      "cases": 36,
+      "deaths": null,
+      "confirmed": 16
+    },
+    {
+      "date": "2015-01-09",
+      "cases": 24,
+      "deaths": null,
+      "confirmed": 17
+    },
+    {
+      "date": "2015-01-10",
+      "cases": 37,
+      "deaths": null,
+      "confirmed": 23
+    },
+    {
+      "date": "2015-01-11",
+      "cases": 35,
+      "deaths": null,
+      "confirmed": 14
+    },
+    {
+      "date": "2015-01-12",
+      "cases": 49,
+      "deaths": null,
+      "confirmed": 20
+    },
+    {
+      "date": "2015-01-13",
+      "cases": 38,
+      "deaths": null,
+      "confirmed": 12
+    },
+    {
+      "date": "2015-01-14",
+      "cases": 30,
+      "deaths": null,
+      "confirmed": 11
+    },
+    {
+      "date": "2015-01-15",
+      "cases": 49,
+      "deaths": null,
+      "confirmed": 16
+    },
+    {
+      "date": "2015-01-16",
+      "cases": 28,
+      "deaths": null,
+      "confirmed": 12
+    },
+    {
+      "date": "2015-01-17",
+      "cases": 29,
+      "deaths": null,
+      "confirmed": 10
+    },
+    {
+      "date": "2015-01-18",
+      "cases": 36,
+      "deaths": null,
+      "confirmed": 14
+    },
+    {
+      "date": "2015-01-19",
+      "cases": 32,
+      "deaths": null,
+      "confirmed": 16
+    },
+    {
+      "date": "2015-01-20",
+      "cases": 27,
+      "deaths": null,
+      "confirmed": 13
+    },
+    {
+      "date": "2015-01-21",
+      "cases": 27,
+      "deaths": null,
+      "confirmed": 13
+    },
+    {
+      "date": "2015-01-22",
+      "cases": 23,
+      "deaths": null,
+      "confirmed": 14
+    },
+    {
+      "date": "2015-01-23",
+      "cases": 23,
+      "deaths": null,
+      "confirmed": 11
+    },
+    {
+      "date": "2015-01-24",
+      "cases": 23,
+      "deaths": null,
+      "confirmed": 8
+    },
+    {
+      "date": "2015-01-25",
+      "cases": 25,
+      "deaths": null,
+      "confirmed": 14
+    },
+    {
+      "date": "2015-01-26",
+      "cases": 30,
+      "deaths": null,
+      "confirmed": 16
+    },
+    {
+      "date": "2015-01-27",
+      "cases": 26,
+      "deaths": null,
+      "confirmed": 12
+    },
+    {
+      "date": "2015-01-28",
+      "cases": 20,
+      "deaths": null,
+      "confirmed": 14
+    },
+    {
+      "date": "2015-01-29",
+      "cases": 29,
+      "deaths": null,
+      "confirmed": 11
+    },
+    {
+      "date": "2015-01-30",
+      "cases": 33,
+      "deaths": null,
+      "confirmed": 15
+    },
+    {
+      "date": "2015-01-31",
+      "cases": 14,
+      "deaths": null,
+      "confirmed": 7
+    },
+    {
+      "date": "2015-02-01",
+      "cases": 17,
+      "deaths": null,
+      "confirmed": 11
+    },
+    {
+      "date": "2015-02-02",
+      "cases": 23,
+      "deaths": null,
+      "confirmed": 11
+    },
+    {
+      "date": "2015-02-03",
+      "cases": 17,
+      "deaths": null,
+      "confirmed": 6
+    },
+    {
+      "date": "2015-02-04",
+      "cases": 25,
+      "deaths": null,
+      "confirmed": 12
+    },
+    {
+      "date": "2015-02-05",
+      "cases": 19,
+      "deaths": null,
+      "confirmed": 11
+    },
+    {
+      "date": "2015-02-06",
+      "cases": 23,
+      "deaths": null,
+      "confirmed": 13
+    },
+    {
+      "date": "2015-02-07",
+      "cases": 21,
+      "deaths": null,
+      "confirmed": 15
+    },
+    {
+      "date": "2015-02-08",
+      "cases": 39,
+      "deaths": null,
+      "confirmed": 20
+    },
+    {
+      "date": "2015-02-09",
+      "cases": 27,
+      "deaths": null,
+      "confirmed": 18
+    },
+    {
+      "date": "2015-02-10",
+      "cases": 20,
+      "deaths": null,
+      "confirmed": 11
+    },
+    {
+      "date": "2015-02-11",
+      "cases": 15,
+      "deaths": null,
+      "confirmed": 9
+    },
+    {
+      "date": "2015-02-12",
+      "cases": 12,
+      "deaths": null,
+      "confirmed": 6
+    },
+    {
+      "date": "2015-02-13",
+      "cases": 16,
+      "deaths": null,
+      "confirmed": 8
+    },
+    {
+      "date": "2015-02-14",
+      "cases": 17,
+      "deaths": null,
+      "confirmed": 9
+    },
+    {
+      "date": "2015-02-15",
+      "cases": 27,
+      "deaths": null,
+      "confirmed": 13
+    },
+    {
+      "date": "2015-02-16",
+      "cases": 11,
+      "deaths": null,
+      "confirmed": 2
+    },
+    {
+      "date": "2015-02-17",
+      "cases": 14,
+      "deaths": null,
+      "confirmed": 7
+    },
+    {
+      "date": "2015-02-18",
+      "cases": 16,
+      "deaths": null,
+      "confirmed": 8
+    },
+    {
+      "date": "2015-02-19",
+      "cases": 21,
+      "deaths": null,
+      "confirmed": 12
+    },
+    {
+      "date": "2015-02-20",
+      "cases": 30,
+      "deaths": null,
+      "confirmed": 13
+    },
+    {
+      "date": "2015-02-21",
+      "cases": 14,
+      "deaths": null,
+      "confirmed": 7
+    },
+    {
+      "date": "2015-02-22",
+      "cases": 21,
+      "deaths": null,
+      "confirmed": 13
+    },
+    {
+      "date": "2015-02-23",
+      "cases": 18,
+      "deaths": null,
+      "confirmed": 11
+    },
+    {
+      "date": "2015-02-24",
+      "cases": 13,
+      "deaths": null,
+      "confirmed": 6
+    },
+    {
+      "date": "2015-02-25",
+      "cases": 24,
+      "deaths": null,
+      "confirmed": 13
+    },
+    {
+      "date": "2015-02-26",
+      "cases": 14,
+      "deaths": null,
+      "confirmed": 6
+    },
+    {
+      "date": "2015-02-27",
+      "cases": 16,
+      "deaths": null,
+      "confirmed": 8
+    },
+    {
+      "date": "2015-02-28",
+      "cases": 19,
+      "deaths": null,
+      "confirmed": 14
+    },
+    {
+      "date": "2015-03-01",
+      "cases": 11,
+      "deaths": null,
+      "confirmed": 7
+    },
+    {
+      "date": "2015-03-02",
+      "cases": 16,
+      "deaths": null,
+      "confirmed": 5
+    },
+    {
+      "date": "2015-03-03",
+      "cases": 22,
+      "deaths": null,
+      "confirmed": 11
+    },
+    {
+      "date": "2015-03-04",
+      "cases": 16,
+      "deaths": null,
+      "confirmed": 8
+    },
+    {
+      "date": "2015-03-05",
+      "cases": 24,
+      "deaths": null,
+      "confirmed": 17
+    },
+    {
+      "date": "2015-03-06",
+      "cases": 29,
+      "deaths": null,
+      "confirmed": 17
+    },
+    {
+      "date": "2015-03-07",
+      "cases": 18,
+      "deaths": null,
+      "confirmed": 11
+    },
+    {
+      "date": "2015-03-08",
+      "cases": 15,
+      "deaths": null,
+      "confirmed": 8
+    },
+    {
+      "date": "2015-03-09",
+      "cases": 19,
+      "deaths": null,
+      "confirmed": 7
+    },
+    {
+      "date": "2015-03-10",
+      "cases": 19,
+      "deaths": null,
+      "confirmed": 10
+    },
+    {
+      "date": "2015-03-11",
+      "cases": 8,
+      "deaths": null,
+      "confirmed": 4
+    },
+    {
+      "date": "2015-03-12",
+      "cases": 5,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-03-13",
+      "cases": 13,
+      "deaths": null,
+      "confirmed": 8
+    },
+    {
+      "date": "2015-03-14",
+      "cases": 9,
+      "deaths": null,
+      "confirmed": 4
+    },
+    {
+      "date": "2015-03-15",
+      "cases": 15,
+      "deaths": null,
+      "confirmed": 12
+    },
+    {
+      "date": "2015-03-16",
+      "cases": 11,
+      "deaths": null,
+      "confirmed": 4
+    },
+    {
+      "date": "2015-03-17",
+      "cases": 7,
+      "deaths": null,
+      "confirmed": 6
+    },
+    {
+      "date": "2015-03-18",
+      "cases": 11,
+      "deaths": null,
+      "confirmed": 5
+    },
+    {
+      "date": "2015-03-19",
+      "cases": 11,
+      "deaths": null,
+      "confirmed": 5
+    },
+    {
+      "date": "2015-03-20",
+      "cases": 19,
+      "deaths": null,
+      "confirmed": 6
+    },
+    {
+      "date": "2015-03-21",
+      "cases": 17,
+      "deaths": null,
+      "confirmed": 4
+    },
+    {
+      "date": "2015-03-22",
+      "cases": 15,
+      "deaths": null,
+      "confirmed": 3
+    },
+    {
+      "date": "2015-03-23",
+      "cases": 11,
+      "deaths": null,
+      "confirmed": 1
+    },
+    {
+      "date": "2015-03-24",
+      "cases": 20,
+      "deaths": null,
+      "confirmed": 5
+    },
+    {
+      "date": "2015-03-25",
+      "cases": 14,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-03-26",
+      "cases": 32,
+      "deaths": null,
+      "confirmed": 4
+    },
+    {
+      "date": "2015-03-27",
+      "cases": 29,
+      "deaths": null,
+      "confirmed": 1
+    },
+    {
+      "date": "2015-03-28",
+      "cases": 32,
+      "deaths": null,
+      "confirmed": 5
+    },
+    {
+      "date": "2015-03-29",
+      "cases": 22,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-03-30",
+      "cases": 14,
+      "deaths": null,
+      "confirmed": 2
+    },
+    {
+      "date": "2015-03-31",
+      "cases": 17,
+      "deaths": null,
+      "confirmed": 1
+    },
+    {
+      "date": "2015-04-01",
+      "cases": 18,
+      "deaths": null,
+      "confirmed": 5
+    },
+    {
+      "date": "2015-04-02",
+      "cases": 12,
+      "deaths": null,
+      "confirmed": 3
+    },
+    {
+      "date": "2015-04-03",
+      "cases": 5,
+      "deaths": null,
+      "confirmed": 2
+    },
+    {
+      "date": "2015-04-04",
+      "cases": 11,
+      "deaths": null,
+      "confirmed": 3
+    },
+    {
+      "date": "2015-04-05",
+      "cases": 6,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-04-06",
+      "cases": 4,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-04-07",
+      "cases": 6,
+      "deaths": null,
+      "confirmed": 2
+    },
+    {
+      "date": "2015-04-08",
+      "cases": 4,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-04-09",
+      "cases": 4,
+      "deaths": null,
+      "confirmed": 2
+    },
+    {
+      "date": "2015-04-10",
+      "cases": 8,
+      "deaths": null,
+      "confirmed": 1
+    },
+    {
+      "date": "2015-04-11",
+      "cases": 4,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-04-12",
+      "cases": 8,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-04-13",
+      "cases": 9,
+      "deaths": null,
+      "confirmed": 2
+    },
+    {
+      "date": "2015-04-14",
+      "cases": 15,
+      "deaths": null,
+      "confirmed": 5
+    },
+    {
+      "date": "2015-04-15",
+      "cases": 5,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-04-16",
+      "cases": 3,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-04-17",
+      "cases": 7,
+      "deaths": null,
+      "confirmed": 4
+    },
+    {
+      "date": "2015-04-18",
+      "cases": 15,
+      "deaths": null,
+      "confirmed": 4
+    },
+    {
+      "date": "2015-04-19",
+      "cases": 7,
+      "deaths": null,
+      "confirmed": 2
+    },
+    {
+      "date": "2015-04-20",
+      "cases": 11,
+      "deaths": null,
+      "confirmed": 4
+    },
+    {
+      "date": "2015-04-21",
+      "cases": 7,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-04-22",
+      "cases": 5,
+      "deaths": null,
+      "confirmed": 1
+    },
+    {
+      "date": "2015-04-23",
+      "cases": 10,
+      "deaths": null,
+      "confirmed": 1
+    },
+    {
+      "date": "2015-04-24",
+      "cases": 8,
+      "deaths": null,
+      "confirmed": 1
+    },
+    {
+      "date": "2015-04-25",
+      "cases": 4,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-04-26",
+      "cases": 5,
+      "deaths": null,
+      "confirmed": 2
+    },
+    {
+      "date": "2015-04-27",
+      "cases": 8,
+      "deaths": null,
+      "confirmed": 2
+    },
+    {
+      "date": "2015-04-28",
+      "cases": 8,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-04-29",
+      "cases": 5,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-04-30",
+      "cases": 9,
+      "deaths": null,
+      "confirmed": 2
+    },
+    {
+      "date": "2015-05-01",
+      "cases": 8,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-05-02",
+      "cases": 16,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-05-03",
+      "cases": 6,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-05-04",
+      "cases": 12,
+      "deaths": null,
+      "confirmed": 2
+    },
+    {
+      "date": "2015-05-05",
+      "cases": 12,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-05-06",
+      "cases": 7,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-05-07",
+      "cases": 7,
+      "deaths": null,
+      "confirmed": 2
+    },
+    {
+      "date": "2015-05-08",
+      "cases": 4,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-05-09",
+      "cases": 8,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-05-10",
+      "cases": 17,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-05-11",
+      "cases": 5,
+      "deaths": null,
+      "confirmed": 1
+    },
+    {
+      "date": "2015-05-12",
+      "cases": 5,
+      "deaths": null,
+      "confirmed": 1
+    },
+    {
+      "date": "2015-05-13",
+      "cases": 6,
+      "deaths": null,
+      "confirmed": 1
+    },
+    {
+      "date": "2015-05-14",
+      "cases": 16,
+      "deaths": null,
+      "confirmed": 3
+    },
+    {
+      "date": "2015-05-15",
+      "cases": 24,
+      "deaths": null,
+      "confirmed": 8
+    },
+    {
+      "date": "2015-05-16",
+      "cases": 11,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-05-17",
+      "cases": 7,
+      "deaths": null,
+      "confirmed": 1
+    },
+    {
+      "date": "2015-05-18",
+      "cases": 7,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-05-19",
+      "cases": 6,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-05-20",
+      "cases": 9,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-05-21",
+      "cases": 10,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-05-22",
+      "cases": 9,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-05-23",
+      "cases": 10,
+      "deaths": null,
+      "confirmed": 1
+    },
+    {
+      "date": "2015-05-24",
+      "cases": 9,
+      "deaths": null,
+      "confirmed": 5
+    },
+    {
+      "date": "2015-05-25",
+      "cases": 14,
+      "deaths": null,
+      "confirmed": 3
+    },
+    {
+      "date": "2015-05-26",
+      "cases": 14,
+      "deaths": null,
+      "confirmed": 1
+    },
+    {
+      "date": "2015-05-27",
+      "cases": 8,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-05-28",
+      "cases": 19,
+      "deaths": null,
+      "confirmed": 4
+    },
+    {
+      "date": "2015-05-29",
+      "cases": 4,
+      "deaths": null,
+      "confirmed": 1
+    },
+    {
+      "date": "2015-05-30",
+      "cases": 10,
+      "deaths": null,
+      "confirmed": 2
+    },
+    {
+      "date": "2015-05-31",
+      "cases": 3,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-06-01",
+      "cases": 12,
+      "deaths": null,
+      "confirmed": 3
+    },
+    {
+      "date": "2015-06-02",
+      "cases": 10,
+      "deaths": null,
+      "confirmed": 2
+    },
+    {
+      "date": "2015-06-03",
+      "cases": 10,
+      "deaths": null,
+      "confirmed": 3
+    },
+    {
+      "date": "2015-06-04",
+      "cases": 8,
+      "deaths": null,
+      "confirmed": 1
+    },
+    {
+      "date": "2015-06-05",
+      "cases": 9,
+      "deaths": null,
+      "confirmed": 4
+    },
+    {
+      "date": "2015-06-06",
+      "cases": 14,
+      "deaths": null,
+      "confirmed": 7
+    },
+    {
+      "date": "2015-06-07",
+      "cases": 5,
+      "deaths": null,
+      "confirmed": 2
+    },
+    {
+      "date": "2015-06-08",
+      "cases": 11,
+      "deaths": null,
+      "confirmed": 1
+    },
+    {
+      "date": "2015-06-09",
+      "cases": 2,
+      "deaths": null,
+      "confirmed": 1
+    },
+    {
+      "date": "2015-06-10",
+      "cases": 9,
+      "deaths": null,
+      "confirmed": 2
+    },
+    {
+      "date": "2015-06-11",
+      "cases": 6,
+      "deaths": null,
+      "confirmed": 2
+    },
+    {
+      "date": "2015-06-12",
+      "cases": 1,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-06-13",
+      "cases": 4,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-06-14",
+      "cases": 3,
+      "deaths": null,
+      "confirmed": 1
+    },
+    {
+      "date": "2015-06-15",
+      "cases": 3,
+      "deaths": null,
+      "confirmed": 1
+    },
+    {
+      "date": "2015-06-16",
+      "cases": 12,
+      "deaths": null,
+      "confirmed": 4
+    },
+    {
+      "date": "2015-06-17",
+      "cases": 2,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-06-18",
+      "cases": 2,
+      "deaths": null,
+      "confirmed": 2
+    },
+    {
+      "date": "2015-06-19",
+      "cases": 2,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-06-20",
+      "cases": 5,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-06-21",
+      "cases": 3,
+      "deaths": null,
+      "confirmed": 3
+    },
+    {
+      "date": "2015-06-22",
+      "cases": 2,
+      "deaths": null,
+      "confirmed": 1
+    },
+    {
+      "date": "2015-06-23",
+      "cases": 7,
+      "deaths": null,
+      "confirmed": 2
+    },
+    {
+      "date": "2015-06-24",
+      "cases": 12,
+      "deaths": null,
+      "confirmed": 2
+    },
+    {
+      "date": "2015-06-25",
+      "cases": 3,
+      "deaths": null,
+      "confirmed": 1
+    },
+    {
+      "date": "2015-06-26",
+      "cases": 1,
+      "deaths": null,
+      "confirmed": 1
+    },
+    {
+      "date": "2015-06-27",
+      "cases": 4,
+      "deaths": null,
+      "confirmed": 1
+    },
+    {
+      "date": "2015-06-28",
+      "cases": 8,
+      "deaths": null,
+      "confirmed": 2
+    },
+    {
+      "date": "2015-06-29",
+      "cases": 2,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-06-30",
+      "cases": 3,
+      "deaths": null,
+      "confirmed": 2
+    },
+    {
+      "date": "2015-07-01",
+      "cases": 10,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-07-02",
+      "cases": 8,
+      "deaths": null,
+      "confirmed": 2
+    },
+    {
+      "date": "2015-07-03",
+      "cases": 6,
+      "deaths": null,
+      "confirmed": 1
+    },
+    {
+      "date": "2015-07-04",
+      "cases": 7,
+      "deaths": null,
+      "confirmed": 2
+    },
+    {
+      "date": "2015-07-05",
+      "cases": 4,
+      "deaths": null,
+      "confirmed": 1
+    },
+    {
+      "date": "2015-07-06",
+      "cases": 6,
+      "deaths": null,
+      "confirmed": 2
+    },
+    {
+      "date": "2015-07-07",
+      "cases": 9,
+      "deaths": null,
+      "confirmed": 3
+    },
+    {
+      "date": "2015-07-08",
+      "cases": 7,
+      "deaths": null,
+      "confirmed": 4
+    },
+    {
+      "date": "2015-07-09",
+      "cases": 4,
+      "deaths": null,
+      "confirmed": 1
+    },
+    {
+      "date": "2015-07-10",
+      "cases": 10,
+      "deaths": null,
+      "confirmed": 3
+    },
+    {
+      "date": "2015-07-11",
+      "cases": 2,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-07-12",
+      "cases": 9,
+      "deaths": null,
+      "confirmed": 1
+    },
+    {
+      "date": "2015-07-13",
+      "cases": 6,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-07-14",
+      "cases": 3,
+      "deaths": null,
+      "confirmed": 1
+    },
+    {
+      "date": "2015-07-15",
+      "cases": 6,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-07-16",
+      "cases": 3,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-07-17",
+      "cases": 7,
+      "deaths": null,
+      "confirmed": 1
+    },
+    {
+      "date": "2015-07-18",
+      "cases": 6,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-07-19",
+      "cases": 7,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-07-20",
+      "cases": 17,
+      "deaths": null,
+      "confirmed": 2
+    },
+    {
+      "date": "2015-07-21",
+      "cases": 7,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-07-22",
+      "cases": 8,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-07-23",
+      "cases": 20,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-07-24",
+      "cases": 23,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-07-25",
+      "cases": 27,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-07-26",
+      "cases": 34,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-07-27",
+      "cases": 17,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-07-28",
+      "cases": 11,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-07-29",
+      "cases": 18,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-07-30",
+      "cases": 17,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-07-31",
+      "cases": 8,
+      "deaths": null,
+      "confirmed": 2
+    },
+    {
+      "date": "2015-08-01",
+      "cases": 5,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-08-02",
+      "cases": 3,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-08-03",
+      "cases": 8,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-08-04",
+      "cases": 13,
+      "deaths": null,
+      "confirmed": 2
+    },
+    {
+      "date": "2015-08-05",
+      "cases": 8,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-08-06",
+      "cases": 9,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-08-07",
+      "cases": 5,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-08-08",
+      "cases": 3,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-08-09",
+      "cases": 4,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-08-10",
+      "cases": 3,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-08-11",
+      "cases": 4,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-08-12",
+      "cases": 4,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-08-13",
+      "cases": 5,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-08-14",
+      "cases": 2,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-08-15",
+      "cases": 6,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-08-16",
+      "cases": 18,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-08-17",
+      "cases": 6,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-08-18",
+      "cases": 3,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-08-19",
+      "cases": 2,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-08-20",
+      "cases": 8,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-08-21",
+      "cases": 10,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-08-22",
+      "cases": 5,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-08-23",
+      "cases": 7,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-08-24",
+      "cases": 8,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-08-25",
+      "cases": 7,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-08-26",
+      "cases": 6,
+      "deaths": null,
+      "confirmed": 1
+    },
+    {
+      "date": "2015-08-27",
+      "cases": 6,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-08-28",
+      "cases": 5,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-08-29",
+      "cases": 13,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-08-30",
+      "cases": 10,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-08-31",
+      "cases": 10,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-09-01",
+      "cases": 7,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-09-02",
+      "cases": 4,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-09-03",
+      "cases": 7,
+      "deaths": null,
+      "confirmed": 2
+    },
+    {
+      "date": "2015-09-04",
+      "cases": 6,
+      "deaths": null,
+      "confirmed": 1
+    },
+    {
+      "date": "2015-09-05",
+      "cases": 11,
+      "deaths": null,
+      "confirmed": 1
+    },
+    {
+      "date": "2015-09-06",
+      "cases": 5,
+      "deaths": null,
+      "confirmed": 2
+    },
+    {
+      "date": "2015-09-07",
+      "cases": 7,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-09-08",
+      "cases": 8,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-09-09",
+      "cases": 11,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-09-10",
+      "cases": 3,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-09-11",
+      "cases": 3,
+      "deaths": null,
+      "confirmed": 0
+    },
+    {
+      "date": "2015-09-12",
+      "cases": 1,
+      "deaths": null,
+      "confirmed": 0
+    }
+  ]
+}
