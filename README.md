@@ -39,7 +39,14 @@ Susceptible -> Exposed -> Infectious -> Recovered
 
 - One tick is one simulated hour. Charts show daily totals (24 ticks).
 - An infectious agent can infect any susceptible agent inside its contact radius. The chance per contact per tick is **p = R0 / (c x D)**, where c is the expected number of contacts per tick and D is the infectious period in ticks. With this choice, one infectious agent in a fully susceptible population causes R0 infections on average.
-- Time spent in Exposed and Infectious is drawn around the dial value, so not everyone recovers on the same day.
+- Time spent in Exposed and Infectious is drawn around the dial value (uniformly between half and one and a half times it), so not everyone recovers on the same day.
+- Because p is divided by c, R0 means the same in every setting. Density and movement change how fast the virus gets around, not R0.
+- The world wraps at the edges, so there are no corners to hide in. A grid of cells one contact radius wide means an agent only checks its own cell and the 8 around it for contacts.
+- Agents walk in a straight line and now and then turn. Symptomatic agents walk slower by the self-isolation dial.
+- Lockdown: from the lockdown day agents walk at a quarter of their speed, and the contacts that still happen pass the virus on at 30% of the usual chance.
+- Testing: a symptomatic case is tested with the chance on the testing dial, and isolated (no movement, no contacts) one day after its symptoms start. Cases without symptoms are never tested.
+- Vaccinated agents start as Recovered, so with waning immunity they become susceptible again too.
+- A run is seeded: the same seed and dials give exactly the same run.
 
 ### Dials
 
@@ -82,7 +89,15 @@ The simulator has to agree with theory before its curves mean anything. In a ful
 z = 1 - exp(-R0 * z)
 ```
 
-The engine test runs 20 seeded, fully mixed outbreaks of 5,000 agents at several R0 values and checks that the mean attack rate is within 5% of z. R's `deSolve` SIR model is used as a second reference.
+The engine test runs 20 seeded, fully mixed outbreaks of 5,000 agents at R0 1.8, 2.5 and 4 and checks that the mean attack rate is within 5% of z. Fully mixed is a setting (`fullyMixed`) in which every infectious agent can meet every other agent, as the formula assumes. R's `deSolve` SIR model is used as a second reference.
+
+| R0 | z (theory) | Mean attack rate, 20 runs |
+|---|---|---|
+| 1.8 | 0.7324 | 0.7323 |
+| 2.5 | 0.8926 | 0.8937 |
+| 4 | 0.9802 | 0.9802 |
+
+Speed: `hutch test ./src/engine/bench.ts` reports the time per tick. On the development laptop a tick takes about 0.3 ms at 5,000 agents and 3 to 6 ms at 50,000, against 16 ms available per frame at 60 frames a second.
 
 ## Where R fits
 
@@ -214,12 +229,12 @@ Rscript r/fetch_flu1918.R     # or any other fetch_*.R
 - [x] App skeleton: window, History and Simulate tabs, R bridge, engine worker
 - [ ] R pipeline for the four outbreaks, with exploratory analysis
 - [ ] First History chart from `data/*.json`
-- [ ] Engine passes the SIR final-size test
+- [x] Engine passes the SIR final-size test
 
 **Final**
 
 - [ ] Simulate dashboard: canvas, live chart, all dials
-- [ ] Settings presets
+- [ ] Settings presets (defined in `src/engine/presets.ts`, not in the UI yet)
 - [ ] R fits (R0, R(t)) for each outbreak, "Load from history" into the simulator
 - [ ] Compare two outbreaks in History
 - [ ] Report, demo video, presentation
