@@ -16,14 +16,18 @@ export const NUM_STATES = 5;
 // One tick is one simulated hour.
 export const TICKS_PER_DAY = 24;
 
-export interface Agent {
-	x: number;
-	y: number;
-	state: State;
-	// Ticks left in Exposed or Infectious.
-	timer: number;
-	// Never shows symptoms; set when the agent becomes Exposed.
-	asymptomatic: boolean;
+// All agents, one entry per agent in each array (agent i is x[i], y[i],
+// state[i], ...). Typed arrays instead of an array of objects: they are
+// compact, fast to loop over, and the worker can hand copies to the UI
+// without converting them.
+export interface World {
+	x: Float32Array; // position, 0 to worldSize
+	y: Float32Array;
+	state: Uint8Array; // a State value
+	// Ticks left in Exposed, Infectious or (with waning immunity) Recovered.
+	timer: Int32Array;
+	// 1 = never shows symptoms; set when the agent becomes Exposed.
+	asymptomatic: Uint8Array;
 }
 
 // Number of agents in each state, indexed by State.
@@ -53,4 +57,9 @@ export interface Settings {
 	speed: number; // distance an agent walks per tick
 	initialInfected: number;
 	seed: number;
+	// Ignore positions: every infectious agent can meet every other agent.
+	// This is the textbook SIR assumption, used to check the model against
+	// the final-size formula. The agents still walk so there is something to
+	// draw.
+	fullyMixed: boolean;
 }

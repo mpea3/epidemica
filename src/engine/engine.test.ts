@@ -9,6 +9,7 @@ const settings: Settings = {
 	speed: 0.2,
 	initialInfected: 5,
 	seed: 1,
+	fullyMixed: false,
 };
 
 const params: Params = {
