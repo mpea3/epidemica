@@ -1,0 +1,447 @@
+{
+  "id": "measles1861",
+  "name": "Measles, Hagelloch 1861",
+  "source": "outbreaks::measles_hagelloch_1861 (Pfeilsticker 1863, Oesterle 1992)",
+  "url": "https://cran.r-project.org/package=outbreaks",
+  "accessed": "2026-10-16",
+  "licence": "GPL (>= 2) (outbreaks package)",
+  "interval": "day",
+  "notes": "Cases by date of prodrome (first symptoms). 188 children, 12 deaths.",
+  "series": [
+    {
+      "date": "1861-10-30",
+      "cases": 1,
+      "deaths": 0
+    },
+    {
+      "date": "1861-10-31",
+      "cases": 0,
+      "deaths": 0
+    },
+    {
+      "date": "1861-11-01",
+      "cases": 1,
+      "deaths": 0
+    },
+    {
+      "date": "1861-11-02",
+      "cases": 0,
+      "deaths": 0
+    },
+    {
+      "date": "1861-11-03",
+      "cases": 0,
+      "deaths": 0
+    },
+    {
+      "date": "1861-11-04",
+      "cases": 0,
+      "deaths": 0
+    },
+    {
+      "date": "1861-11-05",
+      "cases": 0,
+      "deaths": 0
+    },
+    {
+      "date": "1861-11-06",
+      "cases": 0,
+      "deaths": 0
+    },
+    {
+      "date": "1861-11-07",
+      "cases": 2,
+      "deaths": 0
+    },
+    {
+      "date": "1861-11-08",
+      "cases": 1,
+      "deaths": 0
+    },
+    {
+      "date": "1861-11-09",
+      "cases": 0,
+      "deaths": 0
+    },
+    {
+      "date": "1861-11-10",
+      "cases": 0,
+      "deaths": 0
+    },
+    {
+      "date": "1861-11-11",
+      "cases": 2,
+      "deaths": 0
+    },
+    {
+      "date": "1861-11-12",
+      "cases": 1,
+      "deaths": 0
+    },
+    {
+      "date": "1861-11-13",
+      "cases": 1,
+      "deaths": 0
+    },
+    {
+      "date": "1861-11-14",
+      "cases": 0,
+      "deaths": 0
+    },
+    {
+      "date": "1861-11-15",
+      "cases": 2,
+      "deaths": 0
+    },
+    {
+      "date": "1861-11-16",
+      "cases": 0,
+      "deaths": 0
+    },
+    {
+      "date": "1861-11-17",
+      "cases": 1,
+      "deaths": 0
+    },
+    {
+      "date": "1861-11-18",
+      "cases": 1,
+      "deaths": 1
+    },
+    {
+      "date": "1861-11-19",
+      "cases": 1,
+      "deaths": 0
+    },
+    {
+      "date": "1861-11-20",
+      "cases": 4,
+      "deaths": 0
+    },
+    {
+      "date": "1861-11-21",
+      "cases": 14,
+      "deaths": 0
+    },
+    {
+      "date": "1861-11-22",
+      "cases": 12,
+      "deaths": 0
+    },
+    {
+      "date": "1861-11-23",
+      "cases": 7,
+      "deaths": 0
+    },
+    {
+      "date": "1861-11-24",
+      "cases": 5,
+      "deaths": 0
+    },
+    {
+      "date": "1861-11-25",
+      "cases": 5,
+      "deaths": 0
+    },
+    {
+      "date": "1861-11-26",
+      "cases": 3,
+      "deaths": 0
+    },
+    {
+      "date": "1861-11-27",
+      "cases": 5,
+      "deaths": 0
+    },
+    {
+      "date": "1861-11-28",
+      "cases": 3,
+      "deaths": 0
+    },
+    {
+      "date": "1861-11-29",
+      "cases": 5,
+      "deaths": 0
+    },
+    {
+      "date": "1861-11-30",
+      "cases": 13,
+      "deaths": 0
+    },
+    {
+      "date": "1861-12-01",
+      "cases": 20,
+      "deaths": 0
+    },
+    {
+      "date": "1861-12-02",
+      "cases": 12,
+      "deaths": 0
+    },
+    {
+      "date": "1861-12-03",
+      "cases": 16,
+      "deaths": 0
+    },
+    {
+      "date": "1861-12-04",
+      "cases": 12,
+      "deaths": 0
+    },
+    {
+      "date": "1861-12-05",
+      "cases": 12,
+      "deaths": 0
+    },
+    {
+      "date": "1861-12-06",
+      "cases": 5,
+      "deaths": 0
+    },
+    {
+      "date": "1861-12-07",
+      "cases": 6,
+      "deaths": 0
+    },
+    {
+      "date": "1861-12-08",
+      "cases": 0,
+      "deaths": 0
+    },
+    {
+      "date": "1861-12-09",
+      "cases": 3,
+      "deaths": 1
+    },
+    {
+      "date": "1861-12-10",
+      "cases": 0,
+      "deaths": 0
+    },
+    {
+      "date": "1861-12-11",
+      "cases": 2,
+      "deaths": 0
+    },
+    {
+      "date": "1861-12-12",
+      "cases": 3,
+      "deaths": 3
+    },
+    {
+      "date": "1861-12-13",
+      "cases": 3,
+      "deaths": 1
+    },
+    {
+      "date": "1861-12-14",
+      "cases": 1,
+      "deaths": 1
+    },
+    {
+      "date": "1861-12-15",
+      "cases": 2,
+      "deaths": 3
+    },
+    {
+      "date": "1861-12-16",
+      "cases": 0,
+      "deaths": 0
+    },
+    {
+      "date": "1861-12-17",
+      "cases": 0,
+      "deaths": 1
+    },
+    {
+      "date": "1861-12-18",
+      "cases": 0,
+      "deaths": 0
+    },
+    {
+      "date": "1861-12-19",
+      "cases": 0,
+      "deaths": 0
+    },
+    {
+      "date": "1861-12-20",
+      "cases": 0,
+      "deaths": 0
+    },
+    {
+      "date": "1861-12-21",
+      "cases": 0,
+      "deaths": 0
+    },
+    {
+      "date": "1861-12-22",
+      "cases": 0,
+      "deaths": 0
+    },
+    {
+      "date": "1861-12-23",
+      "cases": 0,
+      "deaths": 0
+    },
+    {
+      "date": "1861-12-24",
+      "cases": 0,
+      "deaths": 0
+    },
+    {
+      "date": "1861-12-25",
+      "cases": 0,
+      "deaths": 0
+    },
+    {
+      "date": "1861-12-26",
+      "cases": 0,
+      "deaths": 0
+    },
+    {
+      "date": "1861-12-27",
+      "cases": 0,
+      "deaths": 0
+    },
+    {
+      "date": "1861-12-28",
+      "cases": 0,
+      "deaths": 1
+    },
+    {
+      "date": "1861-12-29",
+      "cases": 0,
+      "deaths": 0
+    },
+    {
+      "date": "1861-12-30",
+      "cases": 0,
+      "deaths": 0
+    },
+    {
+      "date": "1861-12-31",
+      "cases": 0,
+      "deaths": 0
+    },
+    {
+      "date": "1862-01-01",
+      "cases": 0,
+      "deaths": 0
+    },
+    {
+      "date": "1862-01-02",
+      "cases": 0,
+      "deaths": 0
+    },
+    {
+      "date": "1862-01-03",
+      "cases": 0,
+      "deaths": 0
+    },
+    {
+      "date": "1862-01-04",
+      "cases": 0,
+      "deaths": 0
+    },
+    {
+      "date": "1862-01-05",
+      "cases": 0,
+      "deaths": 0
+    },
+    {
+      "date": "1862-01-06",
+      "cases": 0,
+      "deaths": 0
+    },
+    {
+      "date": "1862-01-07",
+      "cases": 0,
+      "deaths": 0
+    },
+    {
+      "date": "1862-01-08",
+      "cases": 0,
+      "deaths": 0
+    },
+    {
+      "date": "1862-01-09",
+      "cases": 0,
+      "deaths": 0
+    },
+    {
+      "date": "1862-01-10",
+      "cases": 0,
+      "deaths": 0
+    },
+    {
+      "date": "1862-01-11",
+      "cases": 0,
+      "deaths": 0
+    },
+    {
+      "date": "1862-01-12",
+      "cases": 0,
+      "deaths": 0
+    },
+    {
+      "date": "1862-01-13",
+      "cases": 0,
+      "deaths": 0
+    },
+    {
+      "date": "1862-01-14",
+      "cases": 0,
+      "deaths": 0
+    },
+    {
+      "date": "1862-01-15",
+      "cases": 0,
+      "deaths": 0
+    },
+    {
+      "date": "1862-01-16",
+      "cases": 0,
+      "deaths": 0
+    },
+    {
+      "date": "1862-01-17",
+      "cases": 0,
+      "deaths": 0
+    },
+    {
+      "date": "1862-01-18",
+      "cases": 0,
+      "deaths": 0
+    },
+    {
+      "date": "1862-01-19",
+      "cases": 0,
+      "deaths": 0
+    },
+    {
+      "date": "1862-01-20",
+      "cases": 0,
+      "deaths": 0
+    },
+    {
+      "date": "1862-01-21",
+      "cases": 0,
+      "deaths": 0
+    },
+    {
+      "date": "1862-01-22",
+      "cases": 0,
+      "deaths": 0
+    },
+    {
+      "date": "1862-01-23",
+      "cases": 0,
+      "deaths": 0
+    },
+    {
+      "date": "1862-01-24",
+      "cases": 1,
+      "deaths": 0
+    }
+  ]
+}
