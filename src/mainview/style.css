@@ -68,6 +68,19 @@ button {
 	cursor: pointer;
 }
 
+select {
+	font: inherit;
+	color: inherit;
+	background: var(--bg);
+	border: 1px solid var(--line);
+	padding: 0.15rem 0.4rem;
+	margin-left: 0.5rem;
+}
+
+.muted {
+	color: var(--muted);
+}
+
 nav button[aria-pressed="true"] {
 	border-color: var(--fg);
 }

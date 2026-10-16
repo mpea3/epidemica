@@ -1,6 +1,7 @@
 import { Electroview } from "electrobun/view";
 import type { FromWorker } from "../engine/worker";
 import type { EpidemicaRPC } from "../shared/rpc";
+import { initHistory } from "./history";
 
 const rpc = Electroview.defineRPC<EpidemicaRPC>({
 	maxRequestTime: 60_000,
@@ -64,7 +65,8 @@ startEngine()
 
 pingR();
 
-electroview.rpc!.request
-	.outbreaks()
-	.then((list) => log(`history: ${list.length} outbreaks: ${list.map((o) => o.id).join(", ")}`))
-	.catch((err) => log(`history failed: ${err}`));
+initHistory({
+	list: () => electroview.rpc!.request.outbreaks(),
+	load: (id) => electroview.rpc!.request.outbreak({ id }),
+	log,
+});

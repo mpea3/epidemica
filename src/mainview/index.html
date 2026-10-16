@@ -18,7 +18,15 @@
 	<main>
 		<section id="history">
 			<h2>history</h2>
-			<p>Past outbreaks from data/*.json. Nothing here yet.</p>
+			<p>
+				<label for="outbreak">outbreak</label>
+				<select id="outbreak" disabled>
+					<option>loading...</option>
+				</select>
+			</p>
+			<p id="outbreak-summary"></p>
+			<div id="outbreak-chart"></div>
+			<p id="outbreak-source" class="muted"></p>
 		</section>
 
 		<section id="simulate" hidden>
