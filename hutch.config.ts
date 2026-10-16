@@ -6,8 +6,8 @@ export default {
 		dev: ["hutch", "electrobun", "dev", "--watch"],
 		build: ["hutch", "electrobun", "build", "--env=stable"],
 		typecheck: ["hutch", "pm", "exec", "--", "tsc", "--noEmit"],
-		// hutch test needs explicit file paths; a folder finds nothing.
-		test: "hutch test $(find src -name '*.test.ts')",
+		// Runs hutch test once per *.test.ts file; see scripts/test.ts for why.
+		test: ["hutch", "scripts/test.ts"],
 	},
 	electrobun: {
 		version: "2.0.2",
