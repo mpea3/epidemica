@@ -1,0 +1,11 @@
+{
+	"name": "epidemica",
+	"version": "0.1.0",
+	"private": true,
+	"type": "module",
+	"description": "Look at past epidemics and simulate new ones",
+	"devDependencies": {
+		"@types/bun": "1.4.0",
+		"typescript": "5.9.3"
+	}
+}

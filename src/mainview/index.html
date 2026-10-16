@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Epidemica</title>
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<header>
+		<h1>epidemica</h1>
+		<nav>
+			<button type="button" data-tab="history" aria-pressed="true">history</button>
+			<button type="button" data-tab="simulate" aria-pressed="false">simulate</button>
+		</nav>
+	</header>
+
+	<main>
+		<section id="history">
+			<h2>history</h2>
+			<p>Past outbreaks from data/*.json. Nothing here yet.</p>
+		</section>
+
+		<section id="simulate" hidden>
+			<h2>simulate</h2>
+			<p>The agent-based dashboard. Nothing here yet.</p>
+		</section>
+	</main>
+
+	<footer>
+		<output id="engine-status">engine: starting...</output>
+		<output id="r-status"></output>
+		<button type="button" id="ping-r">check R</button>
+	</footer>
+
+	<script src="index.js"></script>
+</body>
+</html>

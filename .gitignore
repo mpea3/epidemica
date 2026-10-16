@@ -1,0 +1,11 @@
+.hutch/
+.cottontail-tmp/
+node_modules/
+build/
+dist/
+artifacts/
+*.tsbuildinfo
+
+# Raw downloads; the cleaned JSON in data/ is committed
+data/raw/
+.Rhistory

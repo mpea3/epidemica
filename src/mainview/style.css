@@ -1,0 +1,73 @@
+:root {
+	--bg: #fdfdfd;
+	--fg: #1a1a1a;
+	--muted: #6b6b6b;
+	--line: #d6d6d6;
+	color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--bg: #161616;
+		--fg: #e6e6e6;
+		--muted: #9a9a9a;
+		--line: #3a3a3a;
+	}
+}
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	background: var(--bg);
+	color: var(--fg);
+	font: 15px/1.5 ui-monospace, "DejaVu Sans Mono", Menlo, monospace;
+}
+
+header,
+footer {
+	display: flex;
+	align-items: center;
+	gap: 1.5rem;
+	padding: 0.75rem 1.25rem;
+	border-bottom: 1px solid var(--line);
+}
+
+footer {
+	border-top: 1px solid var(--line);
+	border-bottom: 0;
+	color: var(--muted);
+}
+
+h1 {
+	margin: 0;
+	font-size: 1rem;
+}
+
+h2 {
+	margin-top: 0;
+	font-size: 1rem;
+}
+
+main {
+	flex: 1;
+	padding: 1.25rem;
+}
+
+button {
+	font: inherit;
+	color: inherit;
+	background: none;
+	border: 1px solid var(--line);
+	padding: 0.15rem 0.6rem;
+	cursor: pointer;
+}
+
+nav button[aria-pressed="true"] {
+	border-color: var(--fg);
+}
