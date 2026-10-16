@@ -70,9 +70,12 @@ disease_values <- list(
     # Infectious about 8 days: from the prodrome to about 4 days after the
     #   rash appears (the rash comes about 4 days after the prodrome).
     si_mean = 10.4, si_sd = 1.7, incubation = 12.5, infectious = 8,
-    # The first child fell ill on 30 Oct; the village school spread it in
-    # one big wave in mid-November.
-    growth_from = "1861-10-30", growth_to = "1861-11-21"
+    # The outbreak moves in generations about 10 days apart (a few cases,
+    # then a jump when the school spread it on 20-22 Nov, then a bigger jump
+    # on 30 Nov - 1 Dec). A window that ends inside a jump gives anything
+    # from R0 = 3 to 14, so we use the first month, from the first child
+    # (30 Oct) to 30 Nov: three whole generations. Read it as rough.
+    growth_from = "1861-10-30", growth_to = "1861-11-30"
   ),
   ebola_sl2014 = list(
     # Serial interval 15.3 (SD 9.3) and incubation 11.4 days: WHO Ebola
