@@ -135,7 +135,7 @@ flowchart LR
     FIT -->|JSON| MAIN
 ```
 
-- The engine runs in a Web Worker inside the webview, so the agent positions it produces every tick never have to cross the RPC bridge.
+- The engine runs in a Web Worker inside the webview, so the agent positions it produces every tick never have to cross the RPC bridge. WebKitGTK will not start a Worker from a `views://` URL, so the main process hands the view the engine bundle's source and the view starts the worker from a Blob.
 - The main process opens the window, reads the files in `data/` and runs R. It never simulates.
 - There is no database. Data lives in JSON files; a running simulation lives in memory.
 
@@ -158,7 +158,8 @@ flowchart LR
 epidemica/
 ├── README.md
 ├── package.json
-├── hutch.config.ts         tasks: install, dev, build, test
+├── hutch.config.ts         tasks: install, dev, build, test, typecheck
+├── hutch.lock              exact dependency versions
 ├── electrobun.config.ts    app name, main process, views
 ├── tsconfig.json
 ├── src/
@@ -168,6 +169,7 @@ epidemica/
 │   └── engine/             the simulation: types, engine, worker
 ├── r/
 │   ├── install.R           installs the R packages
+│   ├── common.R            write_outbreak(): the JSON shape every dataset uses
 │   ├── fetch_*.R           one script per outbreak, writes data/<outbreak>.json
 │   └── fit.R               called by the app: fits an outbreak, prints JSON
 └── data/                   cleaned datasets (JSON); data/raw/ is not committed
@@ -175,16 +177,30 @@ epidemica/
 
 ## Getting started
 
-Needs Linux, macOS or Windows, R 4.5 and Node.js (for `npx`) or Hutch.
+Needs R 4.5 and Node.js (only for the first `npx`). Developed on Linux (WebKitGTK 4.1).
+
+Get Hutch, Electrobun's build tool. The npm package downloads it into `~/.hutch`:
 
 ```bash
-npx electrobun --version      # first run bootstraps Hutch
-hutch run install             # JavaScript dependencies
-Rscript r/install.R           # R packages
-hutch run dev                 # opens the app, rebuilds on save
+npx electrobun@2.0.2 --version
+ln -s ~/.hutch/npm/electrobun/2.0.2/linux-x64/bin/hutch ~/.local/bin/hutch
 ```
 
-Rebuild the datasets:
+(Hutch's own installer, `curl -fsSL https://hutch.blackboard.sh/hutch/install.sh | sh`, refuses a `~/.hutch` the npm package already made, hence the link.)
+
+Then, in this folder:
+
+```bash
+hutch run install             # JavaScript dependencies, from hutch.lock
+Rscript r/install.R           # R packages
+hutch run dev                 # builds, opens the app, rebuilds on save
+hutch run test                # engine tests
+hutch run typecheck           # TypeScript
+```
+
+The footer of the app shows whether the engine worker started and which R version answered.
+
+Rebuild the datasets (run from this folder):
 
 ```bash
 Rscript r/fetch_flu1918.R     # or any other fetch_*.R
@@ -195,7 +211,7 @@ Rscript r/fetch_flu1918.R     # or any other fetch_*.R
 **Mid-term (upload Sunday 1 November 2026)**
 
 - [x] README and project outline
-- [ ] App skeleton: window, History and Simulate tabs, R bridge
+- [x] App skeleton: window, History and Simulate tabs, R bridge, engine worker
 - [ ] R pipeline for the four outbreaks, with exploratory analysis
 - [ ] First History chart from `data/*.json`
 - [ ] Engine passes the SIR final-size test
