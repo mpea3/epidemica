@@ -50,4 +50,15 @@ describe("toColumns", () => {
 			}
 		}
 	});
+
+	test("annotations survive and point at a date and column that exist", () => {
+		const file: OutbreakFile = JSON.parse(readFileSync("data/covid_nl.json", "utf8"));
+		const outbreak = toColumns(file);
+		expect(outbreak.annotations?.length).toBeGreaterThan(0);
+		for (const note of outbreak.annotations ?? []) {
+			const i = outbreak.dates.indexOf(note.date);
+			expect(i).toBeGreaterThanOrEqual(0);
+			expect(outbreak.columns[note.column]?.[i]).not.toBeNull();
+		}
+	});
 });

@@ -16,6 +16,13 @@
 # (for example vaccinations); the app ignores the ones it does not know.
 # When a dataset joins several sources, source, url and licence list them in
 # the same order, separated by "; ". R(t) is added later by fit.R.
+#
+# Optional "annotations" mark single dates the charts should explain, such
+# as a reporting backlog published in one day. The number itself is left as
+# reported; the annotation says why it looks wrong:
+#
+#     "annotations": [ { "date": "2022-02-08", "column": "cases",
+#                        "text": "reporting backlog" } ]
 
 suppressPackageStartupMessages(library(jsonlite))
 
@@ -23,7 +30,7 @@ suppressPackageStartupMessages(library(jsonlite))
 options(timeout = 600)
 
 write_outbreak <- function(id, name, source, url, licence, interval, series,
-                           notes = NULL) {
+                           notes = NULL, annotations = NULL) {
   stopifnot(all(c("date", "cases") %in% names(series)))
   series$date <- format(series$date)
   out <- list(
@@ -31,6 +38,12 @@ write_outbreak <- function(id, name, source, url, licence, interval, series,
     accessed = format(Sys.Date()), licence = licence, interval = interval
   )
   if (!is.null(notes)) out$notes <- notes
+  if (!is.null(annotations)) {
+    stopifnot(all(c("date", "column", "text") %in% names(annotations)))
+    stopifnot(all(annotations$column %in% names(series)))
+    stopifnot(all(annotations$date %in% series$date))
+    out$annotations <- annotations
+  }
   out$series <- series
   path <- file.path("data", paste0(id, ".json"))
   write_json(out, path, auto_unbox = TRUE, na = "null", digits = NA, pretty = TRUE)

@@ -6,7 +6,14 @@
   "accessed": "2026-10-16",
   "licence": "Public Domain Mark 1.0; CC BY 4.0; CC BY 4.0",
   "interval": "day",
-  "notes": "Cases and deaths by date of publication by RIVM, not date of illness, so weekends and holidays show dips. Deaths stop on 2022-12-31 and cases on 2023-03-31. vaccinations is doses per day (7-day average); fully_vaccinated_pct is per 100 people, only on days it was reported; wastewater is SARS-CoV-2 particles per 100,000 people (national average, weekly since July 2025).",
+  "notes": "Cases and deaths by date of publication by RIVM, not date of illness, so weekends and holidays show dips. Deaths stop on 2022-12-31 and cases on 2023-03-31. The peak on 2022-02-08 is a reporting backlog: RIVM switched to a new reporting route that day and published about three weeks of unregistered positive tests at once. vaccinations is doses per day (7-day average); fully_vaccinated_pct is per 100 people, only on days it was reported; wastewater is SARS-CoV-2 particles per 100,000 people (national average, weekly since July 2025).",
+  "annotations": [
+    {
+      "date": "2022-02-08",
+      "column": "cases",
+      "text": "reporting backlog: about three weeks of tests published in one day"
+    }
+  ],
   "series": [
     {
       "date": "2020-02-28",

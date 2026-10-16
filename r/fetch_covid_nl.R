@@ -27,6 +27,13 @@
 # The series runs from the first case to the last wastewater measurement,
 # so cases are null after March 2023, when the GGD test sites closed.
 #
+# 2022-02-08 shows about 390,000 cases, against about 80,000 on the days
+# around it. That day RIVM switched to a new reporting route and published
+# about three weeks of positive tests that had not been registered yet in
+# one go (RIVM, "Nieuwe meldroute positieve testen: uitgebreide toelichting",
+# https://www.rivm.nl/coronavirus-covid-19/weekcijfers/nieuwe-meldroute-positieve-testen-uitgebreide-toelichting).
+# The number is kept as published and marked with an annotation.
+#
 # Run from the project folder: Rscript r/fetch_covid_nl.R
 
 source("r/common.R")
@@ -90,8 +97,13 @@ write_outbreak(
   notes = paste(
     "Cases and deaths by date of publication by RIVM, not date of illness, so weekends and holidays show dips.",
     "Deaths stop on 2022-12-31 and cases on 2023-03-31.",
+    "The peak on 2022-02-08 is a reporting backlog: RIVM switched to a new reporting route that day and published about three weeks of unregistered positive tests at once.",
     "vaccinations is doses per day (7-day average); fully_vaccinated_pct is per 100 people, only on days it was reported;",
     "wastewater is SARS-CoV-2 particles per 100,000 people (national average, weekly since July 2025)."
   ),
-  series = series
+  series = series,
+  annotations = data.frame(
+    date = "2022-02-08", column = "cases",
+    text = "reporting backlog: about three weeks of tests published in one day"
+  )
 )

@@ -266,6 +266,7 @@ Rscript r/fetch_flu1918.R     # or any other fetch_*.R
 
 - The simulator is a teaching model. Agents walk at random; real people have homes, jobs and friends.
 - Historic data is patchy. Old outbreaks were counted by hand, recent ones depend on how much testing was done, and reporting rules changed during COVID-19.
+- Numbers are charted as the source published them, not corrected. Where a number is known to be a reporting artefact, the dataset carries an annotation and the chart marks that date (for example the COVID-19 backlog of 2022-02-08).
 - R0 fitted from early growth depends on the serial interval assumed, which is itself an estimate.
 
 ## AI use

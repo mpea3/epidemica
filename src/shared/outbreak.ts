@@ -11,6 +11,16 @@ export interface OutbreakInfo {
 	licence: string;
 	interval: "day" | "week" | "year"; // what one row counts
 	notes?: string;
+	annotations?: Annotation[];
+}
+
+// A date the chart should explain, such as a reporting backlog published in
+// one day. The number itself stays as reported. Written by the fetch_*.R
+// scripts, see r/common.R.
+export interface Annotation {
+	date: string;
+	column: string; // which column the note is about, e.g. "cases"
+	text: string;
 }
 
 // One row per date, as in the file: { date, cases, deaths, ... }.

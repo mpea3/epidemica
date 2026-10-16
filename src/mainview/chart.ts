@@ -7,7 +7,7 @@
 // panels keep each scale honest. The panels share the cursor and the zoom,
 // so the lag from cases to deaths lines up.
 import uPlot from "uplot";
-import type { Outbreak } from "../shared/outbreak";
+import type { Annotation, Outbreak } from "../shared/outbreak";
 
 // What each panel shows: a column from data/<id>.json and the CSS colour
 // token to draw it in. A panel whose column is empty is left out.
@@ -62,6 +62,35 @@ function formatDay(seconds: number | null): string {
 	return seconds == null ? "-" : new Date(seconds * 1000).toISOString().slice(0, 10);
 }
 
+// A dashed line at each annotated date with its text at the top, drawn on
+// the chart's canvas after uPlot has drawn the series. uPlot's canvas
+// counts device pixels, so sizes are multiplied by devicePixelRatio to look
+// the same on a HiDPI screen.
+function drawAnnotations(u: uPlot, notes: Annotation[]): void {
+	const { ctx, bbox } = u;
+	const dpr = devicePixelRatio;
+	ctx.save();
+	ctx.strokeStyle = token("--muted");
+	ctx.fillStyle = token("--muted");
+	ctx.lineWidth = dpr;
+	ctx.setLineDash([4 * dpr, 4 * dpr]);
+	ctx.font = `${12 * dpr}px ${getComputedStyle(document.body).fontFamily}`;
+	for (const note of notes) {
+		const x = u.valToPos(Date.parse(note.date) / 1000, "x", true);
+		// Zoomed in on another stretch: the date is off the chart.
+		if (x < bbox.left || x > bbox.left + bbox.width) continue;
+		ctx.beginPath();
+		ctx.moveTo(x, bbox.top);
+		ctx.lineTo(x, bbox.top + bbox.height);
+		ctx.stroke();
+		// Text on whichever side of the line has more room.
+		const onLeft = x > bbox.left + bbox.width / 2;
+		ctx.textAlign = onLeft ? "right" : "left";
+		ctx.fillText(`${note.date}: ${note.text}`, x + (onLeft ? -6 : 6) * dpr, bbox.top + 14 * dpr);
+	}
+	ctx.restore();
+}
+
 export function drawOutbreak(container: HTMLElement, outbreak: Outbreak): void {
 	for (const chart of charts) chart.destroy();
 	charts = [];
@@ -79,6 +108,7 @@ export function drawOutbreak(container: HTMLElement, outbreak: Outbreak): void {
 		const values = (outbreak.columns[panel.column] ?? []).slice(from, to);
 		if (!values.some((value) => value !== null)) continue;
 
+		const notes = (outbreak.annotations ?? []).filter((note) => note.column === panel.column);
 		const box = document.createElement("div");
 		container.append(box);
 		const chart = new uPlot(
@@ -96,6 +126,7 @@ export function drawOutbreak(container: HTMLElement, outbreak: Outbreak): void {
 				scales: { x: { time: true } },
 				cursor: { sync: { key: SYNC_KEY } },
 				hooks: {
+					draw: [(u) => drawAnnotations(u, notes)],
 					setScale: [
 						(u, key) => {
 							if (key === "x") syncZoom(u);
