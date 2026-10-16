@@ -2,6 +2,7 @@
 // nothing (and still passes) when it is given more than one test file.
 import { describe, expect, test } from "bun:test";
 import { Engine } from "./engine";
+import { PRESET_IDS, preset } from "./presets";
 import { Random } from "./random";
 import { type Counts, type Params, type Settings, State, TICKS_PER_DAY } from "./types";
 
@@ -150,6 +151,18 @@ describe("engine", () => {
 		const counts = e.counts();
 		expect(e.done()).toBe(true);
 		expect(counts[State.Exposed] + counts[State.Infectious]).toBe(0);
+	});
+
+	test("every preset runs", () => {
+		for (const id of PRESET_IDS) {
+			const { settings: s, params: p } = preset(id);
+			const e = new Engine(s, p);
+			for (let t = 0; t < 5 * TICKS_PER_DAY; t++) e.step();
+			expect(sum(e.counts())).toBe(s.agents);
+			// preset() hands out copies, so changing a dial leaves the preset alone.
+			e.setParam("r0", 99);
+			expect(preset(id).params.r0).not.toBe(99);
+		}
 	});
 
 	// The acceptance check from the README: 20 seeded, fully mixed runs of
