@@ -63,3 +63,8 @@ startEngine()
 	});
 
 pingR();
+
+electroview.rpc!.request
+	.outbreaks()
+	.then((list) => log(`history: ${list.length} outbreaks: ${list.map((o) => o.id).join(", ")}`))
+	.catch((err) => log(`history failed: ${err}`));

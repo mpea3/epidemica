@@ -1,6 +1,7 @@
 // Messages between the main process and the webview. Both sides import this
 // type, so a request with the wrong params or response fails to compile.
 import type { RPCSchema } from "electrobun";
+import type { Outbreak, OutbreakInfo } from "./outbreak";
 
 // What Rscript printed, parsed as JSON, or why it failed.
 export type RResult =
@@ -22,6 +23,17 @@ export type EpidemicaRPC = {
 			engineSource: {
 				params: void;
 				response: string;
+			};
+			// What is in data/, for the History tab's list. No numbers, so the
+			// list stays small.
+			outbreaks: {
+				params: void;
+				response: OutbreakInfo[];
+			};
+			// One outbreak with its numbers, from data/<id>.json.
+			outbreak: {
+				params: { id: string };
+				response: Outbreak;
 			};
 		};
 		messages: {
