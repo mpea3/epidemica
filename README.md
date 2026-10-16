@@ -89,7 +89,14 @@ The engine test runs 20 seeded, fully mixed outbreaks of 5,000 agents at several
 R does the data science. It runs in two ways:
 
 - **Offline pipeline.** `r/fetch_*.R` scripts download the raw data, clean it into one shape (date, new cases, deaths, plus R(t) and its interval) and write `data/<outbreak>.json`. The app only ever reads these files, so it works without the internet.
-- **Live from the app.** When you press "Fit" or "Load from history", the app runs `Rscript r/fit.R --outbreak <id>` and reads JSON back from it. This is how R0, R(t) and the fitted curve get into the simulator.
+- **Live from the app.** When you press "Fit" or "Load from history", the app runs `Rscript r/fit.R --outbreak <id>` and reads JSON back from it: R0 with a 95% interval, R(t) per day, and incubation and infectious periods for the simulator dials.
+- **For the report.** `Rscript r/eda.R` prints a summary table and saves plots to `docs/figures/`: every dataset on one page, the early growth windows behind each R0, R(t) for 1918 flu, the Hagelloch serial interval, Ebola by country, and COVID-19 cases next to wastewater.
+
+How `fit.R` estimates things:
+
+- **R(t)** comes from EpiEstim (Cori et al. 2013) over sliding 7-day windows, with a gamma serial interval per disease. Windows with fewer than 12 cases are left out, because their intervals are too wide to mean much. Weekly counts are spread evenly over their 7 days first, since the CRAN version of EpiEstim only takes daily counts.
+- **R0** comes from the growth rate r in an early window, picked per outbreak (a quasi-Poisson regression of cases on time), turned into R0 with Wallinga and Lipsitch (2007): R0 = (1 + r s^2 / m)^(m^2 / s^2) for a serial interval with mean m and SD s.
+- The serial intervals, incubation and infectious periods and growth windows are in a table at the top of `fit.R`, each with its source.
 
 R packages:
 
@@ -103,15 +110,22 @@ R packages:
 
 ## Datasets
 
-| Outbreak | Source | What |
-|---|---|---|
-| COVID-19, Netherlands | RIVM open data ([data.rivm.nl](https://data.rivm.nl), [wastewater](https://data.overheid.nl/en/dataset/38662-covid-19-nationale-sars-cov-2-afvalwatersurveillance-landelijke-dagcijfers)), Our World in Data for vaccinations | Daily cases, deaths, vaccinations, wastewater load |
-| Influenza, 1918 | `EpiEstim::Flu1918` | Daily incidence in Baltimore, with a serial interval |
-| Ebola, West Africa 2014-16 | `outbreaks::ebola_sierraleone_2014`, WHO situation reports | Case line list (Sierra Leone) and country totals |
-| Measles | `outbreaks::measles_hagelloch_1861`, WHO / Our World in Data | 1861 Hagelloch village outbreak (line list), yearly cases worldwide |
-| Mpox | Our World in Data | Daily cases since 2022 |
+| id | Outbreak | Source | Per |
+|---|---|---|---|
+| `covid_nl` | COVID-19, Netherlands 2020-23 | RIVM open data: [cases and deaths per municipality](https://data.rivm.nl/covid-19/), [wastewater, national](https://data.overheid.nl/dataset/83426-covid-19-nationale-sars-cov-2-afvalwatersurveillance-landelijke-dagcijfers); [Our World in Data](https://catalog.ourworldindata.org/garden/covid/latest/vaccinations_global/vaccinations_global.csv) for vaccinations | day |
+| `flu1918` | Influenza, Baltimore 1918 | `EpiEstim::Flu1918` | day |
+| `ebola_sl2014` | Ebola, Sierra Leone 2014-15 | `outbreaks::ebola_sierraleone_2014` (line list) | day |
+| `ebola_westafrica` | Ebola, Guinea, Liberia and Sierra Leone 2014-16 | WHO situation reports via the [Humanitarian Data Exchange](https://data.humdata.org/dataset/ebola-cases-2014) | week |
+| `measles1861` | Measles, Hagelloch 1861 | `outbreaks::measles_hagelloch_1861` (line list) | day |
+| `measles_world` | Measles, worldwide 1980-2024 | WHO, via [Our World in Data](https://ourworldindata.org/grapher/reported-cases-of-measles) | year |
+| `mpox` | Mpox, worldwide since 2022 | WHO, via [Our World in Data](https://catalog.ourworldindata.org/garden/who/latest/monkeypox/monkeypox.csv) | day |
 
-Source URLs, access dates and licences are kept in the header of each `r/fetch_*.R` script and repeated in the report.
+Source URLs, access dates and licences are kept in the header of each `r/fetch_*.R` script, repeated in each `data/<id>.json` and repeated in the report. Things worth knowing:
+
+- **Moved sources.** Our World in Data archived its GitHub repos for COVID-19 (August 2024) and mpox; both now point to the OWID data catalog, which is what the scripts read. The RIVM wastewater dataset has a new page on data.overheid.nl (83426); the CSV address on data.rivm.nl is unchanged.
+- **1918 start date.** `Flu1918` has no calendar dates. We take day 1 as 1 September 1918: the biggest spikes then fall on 1 and 15 October, round dates people gave when the survey asked when they fell ill, and Fraser et al. (2011) use the same start. Reasoning in `r/fetch_flu1918.R`.
+- **COVID-19 dates** are RIVM publication dates, not dates of illness. RIVM stopped counting deaths on 1 January 2023 and cases on 31 March 2023, when the GGD test sites closed; wastewater runs on to today.
+- **Ebola, West Africa.** The WHO reports give running totals on irregular dates. The script interpolates them to every Sunday and takes differences. Weeks where a total went down (cases reclassified) are null.
 
 ## Architecture
 
@@ -212,7 +226,7 @@ Rscript r/fetch_flu1918.R     # or any other fetch_*.R
 
 - [x] README and project outline
 - [x] App skeleton: window, History and Simulate tabs, R bridge, engine worker
-- [ ] R pipeline for the four outbreaks, with exploratory analysis
+- [x] R pipeline for the four outbreaks, with exploratory analysis
 - [ ] First History chart from `data/*.json`
 - [ ] Engine passes the SIR final-size test
 
