@@ -12,6 +12,14 @@ export interface OutbreakInfo {
 	interval: "day" | "week" | "year"; // what one row counts
 	notes?: string;
 	annotations?: Annotation[];
+	// The disease as epiparameter names it, for fit.R. Imported datasets
+	// have it; the built-in ones keep theirs in fit.R.
+	disease?: string;
+	pathogen?: string;
+	growth_window?: [string, string]; // the dates fit.R uses for R0
+	// Set by the main process, not in the file: true for a dataset imported
+	// with r/import.R, which lives in the app's own folder, not in data/.
+	imported?: boolean;
 }
 
 // A date the chart should explain, such as a reporting backlog published in

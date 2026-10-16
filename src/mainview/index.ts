@@ -2,9 +2,11 @@ import { Electroview } from "electrobun/view";
 import type { FromWorker } from "../engine/worker";
 import type { EpidemicaRPC } from "../shared/rpc";
 import { initHistory } from "./history";
+import { initImport } from "./import";
 
 const rpc = Electroview.defineRPC<EpidemicaRPC>({
-	maxRequestTime: 60_000,
+	// R fits and the CSV file dialog (see pickCsv in src/bun/index.ts).
+	maxRequestTime: 10 * 60_000,
 	handlers: { requests: {}, messages: {} },
 });
 const electroview = new Electroview({ rpc });
@@ -65,8 +67,19 @@ startEngine()
 
 pingR();
 
+// index.html loads this bundle as a classic script, so no top-level await.
 initHistory({
 	list: () => electroview.rpc!.request.outbreaks(),
 	load: (id) => electroview.rpc!.request.outbreak({ id }),
 	log,
-});
+}).then((reloadHistory) =>
+	initImport(
+		{
+			pickCsv: () => electroview.rpc!.request.pickCsv(),
+			diseases: () => electroview.rpc!.request.diseases(),
+			importCsv: (form) => electroview.rpc!.request.importCsv(form),
+			log,
+		},
+		reloadHistory,
+	),
+);

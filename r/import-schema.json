@@ -1,0 +1,28 @@
+{
+  "$comment": "Frictionless Table Schema (https://specs.frictionlessdata.io/table-schema/) for a CSV imported with r/import.R. The names here are tags: import.R gives each field the name of the CSV column tagged with it, adds the other CSV columns as strings, and checks the file. A line list (no cases column, one row per case) drops cases and the unique constraint on date.",
+  "fields": [
+    {
+      "name": "date",
+      "title": "Date",
+      "description": "The day (or the last day of the week, or the year) the counts are for. ISO dates (2020-03-01) unless the import gives another format.",
+      "type": "date",
+      "format": "%Y-%m-%d",
+      "constraints": { "required": true, "unique": true }
+    },
+    {
+      "name": "cases",
+      "title": "New cases",
+      "description": "New cases on that date, not a running total.",
+      "type": "integer",
+      "constraints": { "minimum": 0 }
+    },
+    {
+      "name": "deaths",
+      "title": "New deaths",
+      "description": "New deaths on that date, not a running total. Optional.",
+      "type": "integer",
+      "constraints": { "minimum": 0 }
+    }
+  ],
+  "missingValues": ["", "NA", "null"]
+}

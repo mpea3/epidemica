@@ -65,14 +65,20 @@ async function show(source: HistorySource, id: string): Promise<void> {
 	}
 }
 
-export async function initHistory(source: HistorySource): Promise<void> {
+// "Flu, my town 2025 (imported)": imported datasets are marked in the list,
+// since they are not part of the app's own data.
+function label(outbreak: OutbreakInfo): string {
+	return outbreak.imported ? `${outbreak.name} (imported)` : outbreak.name;
+}
+
+// Fills the picker from data/ and the imports and shows one outbreak: the
+// one with id select if given (a dataset just imported), else the first.
+async function fill(source: HistorySource, select?: string): Promise<void> {
 	try {
 		const outbreaks = await source.list();
-		picker.replaceChildren(
-			...outbreaks.map((outbreak) => new Option(outbreak.name, outbreak.id)),
-		);
+		picker.replaceChildren(...outbreaks.map((outbreak) => new Option(label(outbreak), outbreak.id)));
 		picker.disabled = false;
-		picker.addEventListener("change", () => show(source, picker.value));
+		if (select && outbreaks.some((outbreak) => outbreak.id === select)) picker.value = select;
 		source.log(`history: ${outbreaks.length} outbreaks`);
 		if (outbreaks.length > 0) await show(source, picker.value);
 	} catch (err) {
@@ -80,4 +86,11 @@ export async function initHistory(source: HistorySource): Promise<void> {
 		summary.textContent = `could not list data/: ${err}`;
 		source.log(summary.textContent);
 	}
+}
+
+// Returns a function that reloads the list, for after an import.
+export async function initHistory(source: HistorySource): Promise<(select?: string) => Promise<void>> {
+	picker.addEventListener("change", () => show(source, picker.value));
+	await fill(source);
+	return (select) => fill(source, select);
 }

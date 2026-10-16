@@ -70,7 +70,8 @@ button {
 	cursor: pointer;
 }
 
-select {
+select,
+input {
 	font: inherit;
 	color: inherit;
 	background: var(--bg);
@@ -94,4 +95,54 @@ nav button[aria-pressed="true"] {
 
 #outbreak-chart {
 	margin: 1rem 0;
+}
+
+/* Import form */
+h3 {
+	font-size: 1rem;
+	margin: 1.5rem 0 0.5rem;
+}
+
+fieldset {
+	border: 1px solid var(--line);
+	margin: 0.75rem 0;
+	padding: 0.5rem 0.75rem;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem 1.5rem;
+}
+
+legend {
+	color: var(--muted);
+	padding: 0 0.25rem;
+}
+
+fieldset select,
+fieldset input {
+	margin-left: 0.5rem;
+}
+
+.table-scroll {
+	overflow-x: auto;
+}
+
+#import-preview {
+	border-collapse: collapse;
+	font-size: 0.9em;
+}
+
+#import-preview th,
+#import-preview td {
+	border: 1px solid var(--line);
+	padding: 0.1rem 0.5rem;
+	text-align: left;
+	white-space: nowrap;
+}
+
+#import-result ul {
+	margin: 0.25rem 0;
+}
+
+.error {
+	color: var(--accent);
 }

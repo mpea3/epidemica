@@ -17,6 +17,11 @@
 # When a dataset joins several sources, source, url and licence list them in
 # the same order, separated by "; ". R(t) is added later by fit.R.
 #
+# Optional "disease" and "pathogen" name the disease the way epiparameter
+# does, for fit.R; "growth_window" is the [from, to] dates fit.R uses for R0.
+# Imported datasets (r/import.R) carry these. The built-in ones leave them
+# out and fit.R keeps them in its own table instead.
+#
 # Optional "annotations" mark single dates the charts should explain, such
 # as a reporting backlog published in one day. The number itself is left as
 # reported; the annotation says why it looks wrong:
@@ -29,14 +34,21 @@ suppressPackageStartupMessages(library(jsonlite))
 # Big downloads (RIVM files are about 30 MB) need more than R's default 60 s.
 options(timeout = 600)
 
+# folder is where the file goes; the fetch scripts run from the project
+# folder and use data/.
 write_outbreak <- function(id, name, source, url, licence, interval, series,
-                           notes = NULL, annotations = NULL) {
+                           notes = NULL, annotations = NULL, disease = NULL,
+                           pathogen = NULL, growth_window = NULL,
+                           folder = "data") {
   stopifnot(all(c("date", "cases") %in% names(series)))
   series$date <- format(series$date)
   out <- list(
     id = id, name = name, source = source, url = url,
     accessed = format(Sys.Date()), licence = licence, interval = interval
   )
+  if (!is.null(disease)) out$disease <- disease
+  if (!is.null(pathogen)) out$pathogen <- pathogen
+  if (!is.null(growth_window)) out$growth_window <- format(as.Date(growth_window))
   if (!is.null(notes)) out$notes <- notes
   if (!is.null(annotations)) {
     stopifnot(all(c("date", "column", "text") %in% names(annotations)))
@@ -45,9 +57,11 @@ write_outbreak <- function(id, name, source, url, licence, interval, series,
     out$annotations <- annotations
   }
   out$series <- series
-  path <- file.path("data", paste0(id, ".json"))
+  dir.create(folder, recursive = TRUE, showWarnings = FALSE)
+  path <- file.path(folder, paste0(id, ".json"))
   write_json(out, path, auto_unbox = TRUE, na = "null", digits = NA, pretty = TRUE)
   message("wrote ", path, " (", nrow(series), " rows)")
+  invisible(path)
 }
 
 # Downloads url to data/raw/<file> once and returns the local path. Delete

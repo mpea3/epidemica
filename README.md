@@ -105,13 +105,18 @@ R does the data science. It runs in two ways:
 
 - **Offline pipeline.** `r/fetch_*.R` scripts download the raw data, clean it into one shape (date, new cases, deaths, plus R(t) and its interval) and write `data/<outbreak>.json`. The app only ever reads these files, so it works without the internet.
 - **Live from the app.** When you press "Fit" or "Load from history", the app runs `Rscript r/fit.R --outbreak <id>` and reads JSON back from it: R0 with a 95% interval, R(t) per day, and incubation and infectious periods for the simulator dials.
+- **Importing your own data.** The History tab's "import csv" button, or `Rscript r/import.R`, checks a CSV and writes it in the same `data/<id>.json` shape. See [Importing a dataset](#importing-a-dataset).
 - **For the report.** `Rscript r/eda.R` prints a summary table and saves plots to `docs/figures/`: every dataset on one page, the early growth windows behind each R0, R(t) for 1918 flu, the Hagelloch serial interval, Ebola by country, and COVID-19 cases next to wastewater.
 
 How `fit.R` estimates things:
 
-- **R(t)** comes from EpiEstim (Cori et al. 2013) over sliding 7-day windows, with a gamma serial interval per disease. Windows with fewer than 12 cases are left out, because their intervals are too wide to mean much. Weekly counts are spread evenly over their 7 days first, since the CRAN version of EpiEstim only takes daily counts.
+- **R(t)** comes from EpiEstim (Cori et al. 2013) over sliding 7-day windows, with a gamma serial interval per disease (the mean and SD of the epiparameter estimate, whatever shape that estimate has). Windows with fewer than 12 cases are left out, because their intervals are too wide to mean much. Weekly counts are spread evenly over their 7 days first, since the CRAN version of EpiEstim only takes daily counts.
 - **R0** comes from the growth rate r in an early window, picked per outbreak (a quasi-Poisson regression of cases on time), turned into R0 with Wallinga and Lipsitch (2007): R0 = (1 + r s^2 / m)^(m^2 / s^2) for a serial interval with mean m and SD s.
-- The serial intervals, incubation and infectious periods and growth windows are in a table at the top of `fit.R`, each with its source.
+- **Serial intervals and incubation periods** come from [epiparameter](https://epiverse-trace.github.io/epiparameter/), a curated library of published estimates, so any disease it covers can be fitted. `r/parameters.R` asks it for one entry per disease (its own pick of the best one), first for the pathogen if the dataset names one (1918 flu asks for Influenza-A-H1N1, since the default Influenza incubation period is the one for avian H7N9), then for the disease as a whole. Where there is no serial interval it uses the generation time.
+- **Gaps in epiparameter** are filled in `r/parameters.R` with their source: it has no infectious periods at all (those only set a dial's starting value) and no serial interval for measles (we use the one measured from the Hagelloch line list in `r/eda.R`).
+- **Growth windows** for the built-in outbreaks are in a table at the top of `fit.R`, with the reasoning for each. An imported dataset can give its own; without one, `fit.R` takes the first wave (from the first case to the peak of the 7-day average). On the built-in outbreaks that lands within about 10% of the hand-picked R0, except COVID-19 in the Netherlands (1.37 against 2.54), where the lockdown came before the peak.
+
+Switching to epiparameter on 2026-10-16 moved the built-in R0s a little: 1918 flu 1.36 to 1.35, Ebola Sierra Leone 1.40 to 1.36, Ebola West Africa 1.21 to 1.19, mpox 1.43 to 1.28 (epiparameter's mpox serial interval is Guo et al. 2022, 5.6 days, where we had Madewell et al. 2023, 8.5 days). Measles and COVID-19 are unchanged.
 
 R packages:
 
@@ -122,6 +127,9 @@ R packages:
 | outbreaks | Historic outbreak datasets |
 | deSolve | SIR reference model |
 | mgcv | Smoothing noisy case series (GAM) |
+| epiparameter | Serial intervals and incubation periods per disease |
+| frictionless | Checking imported CSVs against a Frictionless Table Schema |
+| readr | Reading imported CSVs |
 
 ## Datasets
 
@@ -141,6 +149,24 @@ Source URLs, access dates and licences are kept in the header of each `r/fetch_*
 - **1918 start date.** `Flu1918` has no calendar dates. We take day 1 as 1 September 1918: the biggest spikes then fall on 1 and 15 October, round dates people gave when the survey asked when they fell ill, and Fraser et al. (2011) use the same start. Reasoning in `r/fetch_flu1918.R`.
 - **COVID-19 dates** are RIVM publication dates, not dates of illness. RIVM stopped counting deaths on 1 January 2023 and cases on 31 March 2023, when the GGD test sites closed; wastewater runs on to today.
 - **Ebola, West Africa.** The WHO reports give running totals on irregular dates. The script interpolates them to every Sunday and takes differences. Weeks where a total went down (cases reclassified) are null.
+
+## Importing a dataset
+
+Bring your own outbreak as a CSV with one row per date (or one row per case). In the app, press **import csv** in the History tab, pick the file, and tag its columns: which one is the date, which the new cases and which the new deaths. Then name the disease. The same thing from a terminal:
+
+```bash
+Rscript r/import.R --inspect my_cases.csv     # columns, first rows, a guess at the tags
+Rscript r/import.R --diseases                 # the disease names epiparameter knows
+Rscript r/import.R --csv my_cases.csv --id flu_town_2025 --name "Flu, my town 2025" \
+    --date Datum --cases Besmettingen --deaths Overleden --date-format %d-%m-%Y \
+    --disease Influenza --pathogen Influenza-A-H1N1
+```
+
+- **Tags.** `--date`, `--cases` and `--deaths` name columns in your CSV, the way the linelist package tags columns; the other columns are left out. Without `--cases` the file is read as a line list, one row per case, and the rows are counted per day.
+- **Checks.** `r/import-schema.json` is a [Frictionless Table Schema](https://specs.frictionlessdata.io/table-schema/) for the tagged columns: a date that is there and appears once, and whole numbers of at least 0. `import.R` names its fields after your columns and reads the file with the frictionless package. frictionless reports values of the wrong type but does not check constraints, so `import.R` checks those from the same schema. If anything fails nothing is written, and you get every problem with its line number in the CSV.
+- **Shape.** The dates are put in order and every missing day (or week, or year) gets a row with no count, which is not the same as 0. Weekly and yearly data are recognised from the gaps between dates. `,`, `;` and tab are all accepted as the separator.
+- **Disease.** Stored in the JSON as `disease` (and `pathogen`), with the optional `growth_window`, for `fit.R`. Diseases that epiparameter has no serial interval for can be imported and charted, but not fitted.
+- **Where it goes.** The app keeps imports in its own folder (`~/.local/share/dev.mae.epidemica/<channel>/data/` on Linux), so a rebuild does not remove them, and marks them "(imported)" in the list. From a terminal they go to `data/` unless you pass `--out`. An id the app already has is refused.
 
 ## Architecture
 
@@ -195,21 +221,26 @@ epidemica/
 │   ├── bun/index.ts        main process: window, RPC handlers, Rscript bridge
 │   ├── shared/rpc.ts       RPC types shared by main process and webview
 │   ├── shared/outbreak.ts  the data/*.json shape, rows to columns
+│   ├── shared/importing.ts date format and id guesses for the import form
 │   ├── mainview/           the UI: index.html, index.ts, style.css
 │   │   ├── history.ts      History tab: outbreak picker, summary, source
+│   │   ├── import.ts       History tab: the import form
 │   │   └── chart.ts        cases and deaths panels (uPlot)
 │   └── engine/             the simulation: types, engine, worker
 ├── r/
 │   ├── install.R           installs the R packages
 │   ├── common.R            write_outbreak(): the JSON shape every dataset uses
 │   ├── fetch_*.R           one script per outbreak, writes data/<outbreak>.json
+│   ├── parameters.R        serial interval, incubation, infectious period (epiparameter)
+│   ├── import.R            checks a CSV of your own, writes data/<id>.json
+│   ├── import-schema.json  Frictionless Table Schema import.R checks against
 │   └── fit.R               called by the app: fits an outbreak, prints JSON
 └── data/                   cleaned datasets (JSON); data/raw/ is not committed
 ```
 
 ## Getting started
 
-Needs R 4.5 and Node.js (only for the first `npx`). Developed on Linux (WebKitGTK 4.1).
+Needs R 4.5 and Node.js (only for the first `npx`). Developed on Linux (WebKitGTK 4.1). The frictionless R package needs libcurl's headers (`sudo apt install libcurl4-openssl-dev` on Debian and Ubuntu).
 
 Get Hutch, Electrobun's build tool. The npm package downloads it into `~/.hutch`:
 
@@ -254,6 +285,7 @@ Rscript r/fetch_flu1918.R     # or any other fetch_*.R
 - [ ] Settings presets (defined in `src/engine/presets.ts`, not in the UI yet)
 - [ ] R fits (R0, R(t)) for each outbreak, "Load from history" into the simulator
 - [ ] Compare two outbreaks in History
+- [x] Import your own CSV (History tab or `r/import.R`), with disease parameters from epiparameter
 - [ ] Report, demo video, presentation
 
 **If there is time**
@@ -267,7 +299,7 @@ Rscript r/fetch_flu1918.R     # or any other fetch_*.R
 - The simulator is a teaching model. Agents walk at random; real people have homes, jobs and friends.
 - Historic data is patchy. Old outbreaks were counted by hand, recent ones depend on how much testing was done, and reporting rules changed during COVID-19.
 - Numbers are charted as the source published them, not corrected. Where a number is known to be a reporting artefact, the dataset carries an annotation and the chart marks that date (for example the COVID-19 backlog of 2022-02-08).
-- R0 fitted from early growth depends on the serial interval assumed, which is itself an estimate.
+- R0 fitted from early growth depends on the serial interval assumed, which is itself an estimate. epiparameter picks one published estimate per disease; another study can give a quite different value (mpox: 5.6 or 8.5 days).
 
 ## AI use
 

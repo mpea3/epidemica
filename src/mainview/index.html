@@ -24,7 +24,41 @@
 				<select id="outbreak" disabled>
 					<option>loading...</option>
 				</select>
+				<button type="button" id="import-pick">import csv</button>
 			</p>
+			<p id="import-status" class="muted"></p>
+
+			<!-- Import: tag the columns of a CSV, check it with r/import.R. -->
+			<form id="import-form" hidden>
+				<h3>import <span id="import-file"></span></h3>
+				<div class="table-scroll"><table id="import-preview"></table></div>
+				<fieldset>
+					<legend>columns</legend>
+					<label>date <select name="date" required></select></label>
+					<label>date format <input name="dateFormat" value="%Y-%m-%d" size="10" spellcheck="false"></label>
+					<label>cases <select name="cases"></select></label>
+					<label>deaths <select name="deaths"></select></label>
+				</fieldset>
+				<fieldset>
+					<legend>dataset</legend>
+					<label>name <input name="name" size="32" required></label>
+					<label>id <input name="id" size="24" pattern="[a-z0-9_]+" required spellcheck="false"></label>
+					<label>disease <select name="disease" required></select></label>
+					<label>pathogen <select name="pathogen"></select></label>
+					<label>source <input name="source" size="32"></label>
+					<label>licence <input name="licence" size="16"></label>
+				</fieldset>
+				<fieldset>
+					<legend>growth window for R0 (optional; empty: the first wave)</legend>
+					<label>from <input type="date" name="growthFrom"></label>
+					<label>to <input type="date" name="growthTo"></label>
+				</fieldset>
+				<p>
+					<button type="submit">check and import</button>
+					<button type="button" id="import-cancel">cancel</button>
+				</p>
+				<div id="import-result"></div>
+			</form>
 			<p id="outbreak-summary"></p>
 			<div id="outbreak-chart"></div>
 			<p id="outbreak-source" class="muted"></p>
