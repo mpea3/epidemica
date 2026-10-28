@@ -27,6 +27,10 @@ const TEST_DELAY_TICKS = TICKS_PER_DAY;
 
 export class Engine {
 	private tick = 0;
+	// Everyone ever infected, the first cases included. Counted rather than
+	// worked out from the states, because with waning immunity an agent can
+	// be infected more than once.
+	private infections = 0;
 	private readonly n: number;
 	private readonly random: Random;
 	private readonly agents: World;
@@ -134,6 +138,10 @@ export class Engine {
 		return this.tick;
 	}
 
+	infectionsSoFar(): number {
+		return this.infections;
+	}
+
 	// The agents' typed arrays themselves, not copies: read them, do not
 	// change them.
 	world(): Readonly<World> {
@@ -221,6 +229,7 @@ export class Engine {
 	}
 
 	private becomeExposed(i: number): void {
+		this.infections++;
 		this.agents.state[i] = State.Exposed;
 		this.agents.timer[i] = this.stay(this.params.incubationDays);
 		this.agents.asymptomatic[i] = this.random.chance(this.params.shareAsymptomatic) ? 1 : 0;

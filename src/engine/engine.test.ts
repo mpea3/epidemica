@@ -153,6 +153,15 @@ describe("engine", () => {
 		expect(counts[State.Exposed] + counts[State.Infectious]).toBe(0);
 	});
 
+	test("infections are counted, the first cases included", () => {
+		const e = new Engine({ ...settings, agents: 1000 }, { ...params });
+		expect(e.infectionsSoFar()).toBe(5);
+		runToEnd(e);
+		// Lifelong immunity: nobody is infected twice, so everyone who left
+		// Susceptible was infected exactly once.
+		expect(e.infectionsSoFar()).toBe(1000 - e.counts()[State.Susceptible]);
+	});
+
 	test("every preset runs", () => {
 		for (const id of PRESET_IDS) {
 			const { settings: s, params: p } = preset(id);

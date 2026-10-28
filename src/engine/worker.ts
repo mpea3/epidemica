@@ -2,7 +2,7 @@
 // gets frames back; frames carry typed arrays so drawing 5,000 agents per
 // tick stays cheap.
 import { Engine } from "./engine";
-import { type Counts, type Params, type Settings, TICKS_PER_DAY } from "./types";
+import { type Counts, type Params, type Settings, State, TICKS_PER_DAY } from "./types";
 
 export type ToWorker =
 	| { type: "reset"; settings: Settings; params: Params }
@@ -16,8 +16,9 @@ export type FromWorker =
 	| { type: "ready" }
 	// x, y in 0-1 and one state byte per agent.
 	| { type: "frame"; tick: number; counts: Counts; x: Float32Array; y: Float32Array; states: Uint8Array }
-	// Sent on reset (day 0) and after every 24 ticks.
-	| { type: "day"; day: number; counts: Counts };
+	// Sent on reset (day 0) and after every 24 ticks. newCases and newDeaths
+	// are since the previous day; on day 0 newCases is the first cases.
+	| { type: "day"; day: number; counts: Counts; newCases: number; newDeaths: number };
 
 // The screen redraws about 60 times a second, so there is no point sending
 // frames faster than that.
@@ -34,12 +35,30 @@ let daysPerSecond = 2;
 let ticksOwed = 0;
 let lastTime = 0;
 let loopTimer: ReturnType<typeof setTimeout> | undefined;
+// Infections and deaths at the end of the last day sent, to turn the running
+// totals into numbers per day.
+let infectionsBefore = 0;
+let deathsBefore = 0;
+
+function postDay(e: Engine): void {
+	const counts = e.counts();
+	const infections = e.infectionsSoFar();
+	const deaths = counts[State.Dead];
+	post({
+		type: "day",
+		day: e.currentTick() / TICKS_PER_DAY,
+		counts,
+		newCases: infections - infectionsBefore,
+		newDeaths: deaths - deathsBefore,
+	});
+	infectionsBefore = infections;
+	deathsBefore = deaths;
+}
 
 // One tick, plus the daily totals for the charts at the end of each day.
 function runTick(e: Engine): void {
 	e.step();
-	const tick = e.currentTick();
-	if (tick % TICKS_PER_DAY === 0) post({ type: "day", day: tick / TICKS_PER_DAY, counts: e.counts() });
+	if (e.currentTick() % TICKS_PER_DAY === 0) postDay(e);
 }
 
 // The engine's own arrays keep changing, so the frame gets copies. Positions
@@ -98,7 +117,9 @@ onmessage = (event: MessageEvent<ToWorker>) => {
 		case "reset":
 			stop();
 			engine = new Engine(msg.settings, msg.params);
-			post({ type: "day", day: 0, counts: engine.counts() });
+			infectionsBefore = 0;
+			deathsBefore = 0;
+			postDay(engine);
 			postFrame(engine);
 			break;
 		case "start":
