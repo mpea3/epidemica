@@ -77,6 +77,14 @@ A setting is a preset for population size, density, movement and age mix:
 | Care home | Small, dense, old, high fatality |
 | Festival / cruise ship | Very dense, closed population |
 
+### Dashboard
+
+The Simulate tab has the setting picker, a seed, start/pause, step (one hour at a time), reset and a speed slider (half a day to 30 days per second). Speed only changes how many ticks run per second, never what happens in a tick, so a run with the same seed and dials ends the same at any speed.
+
+- **Canvas.** One dot per agent, coloured by state: susceptible grey, exposed amber, infectious red, recovered blue, dead black (white in the dark theme). Everyone but the susceptible is drawn a bit larger so the few cases in a crowd stand out.
+- **Dials.** Every dial in the table above, grouped the same way. They act on the running engine from the next tick, except vaccination coverage, which only counts when a run starts and says "applies on reset". Waning immunity and lockdown have an "off" box. Picking a setting loads its dials and starts a fresh run.
+- **Chart.** Two panels with a shared day axis: agents in each state, and new cases and deaths per day. Every line is labelled "(simulated)". The second panel has the shape of a reported outbreak, so "Load from history" can draw the real curve behind it.
+
 ### Load from history
 
 Pick a past outbreak and R estimates its R0, incubation and infectious period. The app fills the dials with those values, and the reported curve is drawn behind the simulated one.
@@ -225,7 +233,11 @@ epidemica/
 │   ├── mainview/           the UI: index.html, index.ts, style.css
 │   │   ├── history.ts      History tab: outbreak picker, summary, source
 │   │   ├── import.ts       History tab: the import form
-│   │   └── chart.ts        cases and deaths panels (uPlot)
+│   │   ├── chart.ts        cases and deaths panels (uPlot)
+│   │   ├── simulate.ts     Simulate tab: setting, controls, talks to the worker
+│   │   ├── dials.ts        the dials table: ranges, steps, how values are shown
+│   │   ├── canvas.ts       draws the agents
+│   │   └── simchart.ts     live chart of a run (uPlot)
 │   └── engine/             the simulation: types, engine, worker
 ├── r/
 │   ├── install.R           installs the R packages
@@ -281,8 +293,8 @@ Rscript r/fetch_flu1918.R     # or any other fetch_*.R
 
 **Final**
 
-- [ ] Simulate dashboard: canvas, live chart, all dials
-- [ ] Settings presets (defined in `src/engine/presets.ts`, not in the UI yet)
+- [x] Simulate dashboard: canvas, live chart, all dials
+- [x] Settings presets (defined in `src/engine/presets.ts`, picked on the Simulate tab)
 - [ ] R fits (R0, R(t)) for each outbreak, "Load from history" into the simulator
 - [ ] Compare two outbreaks in History
 - [x] Import your own CSV (History tab or `r/import.R`), with disease parameters from epiparameter
