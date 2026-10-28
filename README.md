@@ -264,7 +264,7 @@ epidemica/
 
 ## Getting started
 
-Needs R 4.5 and Node.js (only for the first `npx`). Developed on Linux (WebKitGTK 4.1). The frictionless R package needs libcurl's headers (`sudo apt install libcurl4-openssl-dev` on Debian and Ubuntu).
+Needs R 4.5 or newer (4.6.1 works) and Node.js (only for the first `npx`). Developed on Linux (WebKitGTK 4.1). The frictionless R package needs libcurl's headers (`sudo apt install libcurl4-openssl-dev` on Debian and Ubuntu). On Arch or CachyOS, `sudo pacman -S r gcc-fortran` is enough: curl ships its headers, and gfortran builds packages such as deSolve from source.
 
 Get Hutch, Electrobun's build tool. The npm package downloads it into `~/.hutch`:
 
