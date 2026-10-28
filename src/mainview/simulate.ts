@@ -6,6 +6,7 @@ import { type Counts, type Params, type Settings, State, TICKS_PER_DAY } from ".
 import type { FromWorker, ToWorker } from "../engine/worker";
 import { type AgentFrame, STATE_TOKENS, drawAgents, fitCanvas } from "./canvas";
 import { DIAL_GROUPS, DIALS, type Dial, formatDial } from "./dials";
+import { addDay, initSimChart, resetSimChart } from "./simchart";
 
 const STATE_NAMES = ["susceptible", "exposed", "infectious", "recovered", "dead"] as const;
 
@@ -25,6 +26,7 @@ const speedOutput = document.querySelector<HTMLOutputElement>("#sim-speed-value"
 const canvas = document.querySelector<HTMLCanvasElement>("#sim-canvas")!;
 const statusLine = document.querySelector<HTMLParagraphElement>("#sim-status")!;
 const dialsForm = document.querySelector<HTMLFormElement>("#sim-dials")!;
+const chartBox = document.querySelector<HTMLDivElement>("#sim-chart")!;
 
 // The inputs for one dial; off is the checkbox of a dial that can be null.
 interface DialInputs {
@@ -175,6 +177,7 @@ export function initSimulate(worker: Worker): void {
 		stepButton.disabled = false;
 		const seed = Math.max(1, Math.floor(Number(seedInput.value)) || 1);
 		seedInput.value = String(seed);
+		resetSimChart();
 		send({ type: "reset", settings: { ...settings, seed }, params: { ...params } });
 	}
 
@@ -220,11 +223,14 @@ export function initSimulate(worker: Worker): void {
 			latest = msg;
 			showStatus(msg.tick, msg.counts, over);
 			queueDraw();
+		} else if (msg.type === "day") {
+			addDay(msg);
 		}
 	});
 
 	buildDials(send);
 	fitCanvas(canvas, queueDraw);
+	initSimChart(chartBox);
 	changeSpeed();
 	pickSetting(settingPicker.value as PresetId);
 }

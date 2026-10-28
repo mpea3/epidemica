@@ -212,6 +212,10 @@ button:disabled {
 	margin-right: 0.35em;
 }
 
+#sim-chart {
+	margin: 1rem 0;
+}
+
 #sim-dials fieldset {
 	display: block;
 	margin-top: 0;
