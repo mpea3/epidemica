@@ -102,6 +102,12 @@ nav button[aria-pressed="true"] {
 	font-family: inherit;
 }
 
+/* Two lines each when comparing. */
+#outbreak-summary,
+#outbreak-source {
+	white-space: pre-line;
+}
+
 #outbreak-chart {
 	margin: 1rem 0;
 }

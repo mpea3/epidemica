@@ -158,6 +158,17 @@ Source URLs, access dates and licences are kept in the header of each `r/fetch_*
 - **COVID-19 dates** are RIVM publication dates, not dates of illness. RIVM stopped counting deaths on 1 January 2023 and cases on 31 March 2023, when the GGD test sites closed; wastewater runs on to today.
 - **Ebola, West Africa.** The WHO reports give running totals on irregular dates. The script interpolates them to every Sunday and takes differences. Weeks where a total went down (cases reclassified) are null.
 
+### Comparing two outbreaks
+
+"compare with" on the History tab draws a second outbreak on each panel, in grey. The two are put on the same axes like this (`src/shared/compare.ts`):
+
+- **Days since the first reported case**, not dates, since the outbreaks can be 160 years apart. A dataset that starts in the middle of an outbreak (Ebola, West Africa starts in September 2014) starts at its first row.
+- **Per day.** Weekly counts are divided by 7. Yearly counts (`measles_world`) are too coarse to set against daily ones and cannot be compared.
+- **Log scale** (uPlot's asinh scale, which also has room for days of 0). Hagelloch had 188 cases and the Netherlands 8.6 million; on a log scale both stay readable, and outbreaks growing at the same rate rise at the same slope.
+- **Missing numbers stay gaps.** A weekly series is drawn as one line through its weeks, but a null in the data is not joined over.
+
+Population sizes are not in the datasets, so the counts are not per head: a bigger place has bigger numbers. Compare the shape and the slope, not the height.
+
 ## Importing a dataset
 
 Bring your own outbreak as a CSV with one row per date (or one row per case). In the app, press **import csv** in the History tab, pick the file, and tag its columns: which one is the date, which the new cases and which the new deaths. Then name the disease. The same thing from a terminal:
@@ -230,10 +241,11 @@ epidemica/
 │   ├── shared/rpc.ts       RPC types shared by main process and webview
 │   ├── shared/outbreak.ts  the data/*.json shape, rows to columns
 │   ├── shared/importing.ts date format and id guesses for the import form
+│   ├── shared/compare.ts   lines up two outbreaks by days since the first case
 │   ├── mainview/           the UI: index.html, index.ts, style.css
-│   │   ├── history.ts      History tab: outbreak picker, summary, source
+│   │   ├── history.ts      History tab: outbreak and compare pickers, summary, source
 │   │   ├── import.ts       History tab: the import form
-│   │   ├── chart.ts        cases and deaths panels (uPlot)
+│   │   ├── chart.ts        cases and deaths panels, one outbreak or two (uPlot)
 │   │   ├── simulate.ts     Simulate tab: setting, controls, talks to the worker
 │   │   ├── dials.ts        the dials table: ranges, steps, how values are shown
 │   │   ├── canvas.ts       draws the agents
@@ -296,7 +308,7 @@ Rscript r/fetch_flu1918.R     # or any other fetch_*.R
 - [x] Simulate dashboard: canvas, live chart, all dials
 - [x] Settings presets (defined in `src/engine/presets.ts`, picked on the Simulate tab)
 - [ ] R fits (R0, R(t)) for each outbreak, "Load from history" into the simulator
-- [ ] Compare two outbreaks in History
+- [x] Compare two outbreaks in History (by days since the first case, log scale)
 - [x] Import your own CSV (History tab or `r/import.R`), with disease parameters from epiparameter
 - [ ] Report, demo video, presentation
 

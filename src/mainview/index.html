@@ -24,6 +24,10 @@
 				<select id="outbreak" disabled>
 					<option>loading...</option>
 				</select>
+				<label for="compare">compare with</label>
+				<select id="compare" disabled>
+					<option value="">nothing</option>
+				</select>
 				<button type="button" id="import-pick">import csv</button>
 			</p>
 			<p id="import-status" class="muted"></p>
@@ -60,6 +64,7 @@
 				<div id="import-result"></div>
 			</form>
 			<p id="outbreak-summary"></p>
+			<p id="compare-note" class="muted"></p>
 			<div id="outbreak-chart"></div>
 			<p id="outbreak-source" class="muted"></p>
 		</section>
