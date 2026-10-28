@@ -3,6 +3,7 @@ import type { FromWorker } from "../engine/worker";
 import type { EpidemicaRPC } from "../shared/rpc";
 import { initHistory } from "./history";
 import { initImport } from "./import";
+import { initSimulate } from "./simulate";
 
 const rpc = Electroview.defineRPC<EpidemicaRPC>({
 	// R fits and the CSV file dialog (see pickCsv in src/bun/index.ts).
@@ -53,12 +54,13 @@ async function startEngine(): Promise<Worker> {
 
 startEngine()
 	.then((engine) => {
-		engine.onmessage = (event: MessageEvent<FromWorker>) => {
+		engine.addEventListener("message", (event: MessageEvent<FromWorker>) => {
 			if (event.data.type === "ready") {
 				engineStatus.textContent = "engine: ready";
 				log(engineStatus.textContent);
 			}
-		};
+		});
+		initSimulate(engine);
 	})
 	.catch((err) => {
 		engineStatus.textContent = `engine failed: ${err}`;

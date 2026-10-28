@@ -66,7 +66,24 @@
 
 		<section id="simulate" hidden>
 			<h2>simulate</h2>
-			<p>The agent-based dashboard. Nothing here yet.</p>
+			<p class="controls">
+				<label>setting <select id="sim-setting"></select></label>
+				<label>seed <input id="sim-seed" type="number" min="1" step="1" value="1"></label>
+				<button type="button" id="sim-run">start</button>
+				<button type="button" id="sim-step">step</button>
+				<button type="button" id="sim-reset">reset</button>
+				<label>speed <input id="sim-speed" type="range"> <output id="sim-speed-value"></output></label>
+			</p>
+			<p id="sim-setting-info" class="muted"></p>
+
+			<div class="sim-layout">
+				<div class="sim-world">
+					<canvas id="sim-canvas"></canvas>
+					<p id="sim-status"></p>
+				</div>
+				<!-- Filled from src/mainview/dials.ts. -->
+				<form id="sim-dials"></form>
+			</div>
 		</section>
 	</main>
 

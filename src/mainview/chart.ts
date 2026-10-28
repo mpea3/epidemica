@@ -27,7 +27,7 @@ let syncing = false;
 
 // Colours come from the CSS tokens in style.css, so the chart follows the
 // light or dark theme it is drawn in.
-function token(name: string): string {
+export function token(name: string): string {
 	return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
 }
 

@@ -4,6 +4,12 @@
 	--muted: #6b6b6b;
 	--line: #d6d6d6;
 	--accent: #b0392b;
+	/* Simulate: one colour per agent state, on the canvas and in the chart. */
+	--state-s: #b4b4b4;
+	--state-e: #c98a00;
+	--state-i: var(--accent);
+	--state-r: #2f74a8;
+	--state-d: var(--fg);
 	color-scheme: light dark;
 }
 
@@ -14,6 +20,9 @@
 		--muted: #9a9a9a;
 		--line: #3a3a3a;
 		--accent: #e2705f;
+		--state-s: #555555;
+		--state-e: #e0a63a;
+		--state-r: #62a6dc;
 	}
 }
 
@@ -145,4 +154,91 @@ fieldset input {
 
 .error {
 	color: var(--accent);
+}
+
+/* Simulate */
+.controls {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.5rem 1rem;
+}
+
+#sim-seed {
+	width: 5rem;
+}
+
+button:disabled {
+	color: var(--muted);
+	cursor: default;
+}
+
+/* Canvas on the left, dials on the right; stacked in a narrow window. */
+.sim-layout {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(20rem, 28rem);
+	gap: 1.25rem;
+	align-items: start;
+}
+
+@media (max-width: 900px) {
+	.sim-layout {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}
+
+/* Square, and never taller than the window. */
+.sim-world {
+	max-width: 75vh;
+}
+
+#sim-canvas {
+	display: block;
+	width: 100%;
+	aspect-ratio: 1;
+	border: 1px solid var(--line);
+}
+
+#sim-status {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.25rem 1rem;
+}
+
+.swatch {
+	display: inline-block;
+	width: 0.7em;
+	height: 0.7em;
+	margin-right: 0.35em;
+}
+
+#sim-dials fieldset {
+	display: block;
+	margin-top: 0;
+}
+
+/* label | slider | value, then the off box or a note underneath. */
+.dial {
+	display: grid;
+	grid-template-columns: 12rem minmax(0, 1fr) 5rem;
+	align-items: center;
+	gap: 0 0.5rem;
+}
+
+.dial input[type="range"] {
+	margin: 0;
+	width: 100%;
+}
+
+.dial output {
+	text-align: right;
+}
+
+.dial .off,
+.dial small {
+	grid-column: 2 / -1;
+}
+
+.dial .off input {
+	margin: 0 0.25rem 0 0;
 }
