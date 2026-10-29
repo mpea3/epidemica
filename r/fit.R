@@ -6,19 +6,31 @@
 #
 #   {
 #     "ok": true, "outbreak": "flu1918", "disease": "Influenza",
-#     "r0": 1.33, "r0_ci": [1.26, 1.4],
+#     "r0": 1.347, "r0_ci": [1.279, 1.418],
 #     "r0_window": ["1918-09-01", "1918-10-10"], "r0_window_auto": false,
-#     "growth_rate": 0.126,
+#     "growth_rate": 0.1258, "growth_rate_ci": [0.1027, 0.149],
+#     "growth_intercept": 1.0895,
 #     "rt": [ { "date": "1918-09-08", "mean": 1.4, "lo": 1.0, "hi": 1.9 }, ... ],
 #     "params": { "incubationDays": 1.46, "infectiousDays": 4,
 #                 "serialIntervalMean": 2.51, "serialIntervalSd": 1.55 },
 #     "sources": { "serialInterval": "Ghani et al. 2009, doi:... (epiparameter, ...)",
-#                  "incubation": "...", "infectious": "Carrat et al. 2008" }
+#                  "incubation": "...", "infectious": "Carrat et al. 2008" },
+#     "note": "part of Baltimore was already immune ..."
 #   }
+#
+# r0_window is the first and last day the growth regression actually used,
+# which can be narrower than the window asked for when the counts start
+# or stop inside it. growth_rate is r per day with its 95% interval
+# growth_rate_ci; growth_intercept is a, the log of the expected cases per
+# day on the first day of r0_window (per day for weekly data too: see
+# estimate_r0). note is a caveat about this outbreak's R0 in plain words,
+# or null when there is none.
 #
 # Serial interval, incubation and infectious period come from
 # r/parameters.R (epiparameter). incubationDays or infectiousDays is null
-# when neither epiparameter nor the fallbacks there know it.
+# when neither epiparameter nor the fallbacks there know it. Anything not
+# known prints as null, never as {} or "NA": an R0 bound, for example,
+# when the low end of the growth rate is too negative for the formula.
 #
 # If something goes wrong it prints {"ok": false, "outbreak": ..., "error": ...}.
 #
@@ -40,8 +52,9 @@ suppressPackageStartupMessages(library(jsonlite))
 
 args <- commandArgs(trailingOnly = TRUE)
 
+# jsonlite prints NULL as {} and NA or NaN as "NA" unless told otherwise.
 reply <- function(x) {
-  cat(toJSON(x, auto_unbox = TRUE, digits = NA), "\n")
+  cat(toJSON(x, auto_unbox = TRUE, digits = NA, null = "null", na = "null"), "\n")
 }
 
 # --- Per-outbreak settings ---------------------------------------------------
@@ -52,8 +65,10 @@ reply <- function(x) {
 #   growth_window: the early growth used for R0, chosen by looking at the
 #     curve (see r/eda.R): from the start until the curve stops growing
 #     exponentially or interventions start.
+#   note: what to keep in mind when reading this R0, shown under the fit.
 # An imported dataset (r/import.R) carries the same fields in its JSON
-# instead. Without a growth_window, R0 uses the first wave (auto_window()).
+# instead (the note as fit_note). Without a growth_window, R0 uses the
+# first wave (auto_window()).
 
 builtin_outbreaks <- list(
   flu1918 = list(
@@ -63,7 +78,10 @@ builtin_outbreaks <- list(
     #   this survey. Part of Baltimore was already immune after the spring
     #   1918 wave, so this is below the true R0 (they estimate 1.77 for a
     #   population with no immunity).
-    growth_window = c("1918-09-01", "1918-10-10")
+    growth_window = c("1918-09-01", "1918-10-10"),
+    note = paste("part of Baltimore was already immune after the spring 1918",
+                 "wave, so this is below the R0 of a population with no",
+                 "immunity (Fraser et al. 2011 estimate 1.77).")
   ),
   measles1861 = list(
     disease = "Measles",
@@ -72,7 +90,10 @@ builtin_outbreaks <- list(
     # on 30 Nov - 1 Dec). A window that ends inside a jump gives anything
     # from R0 = 3 to 14, so we use the first month, from the first child
     # (30 Oct) to 30 Nov: three whole generations. Read it as rough.
-    growth_window = c("1861-10-30", "1861-11-30")
+    growth_window = c("1861-10-30", "1861-11-30"),
+    note = paste("three generations in one village of 188 children; the",
+                 "window decides a lot (a window ending inside a jump gives",
+                 "3 to 14), so read it as rough.")
   ),
   ebola_sl2014 = list(
     disease = "Ebola Virus Disease",
@@ -84,18 +105,25 @@ builtin_outbreaks <- list(
   ebola_westafrica = list(
     disease = "Ebola Virus Disease",
     # The series starts in September 2014, already late in the growth phase.
-    growth_window = c("2014-09-07", "2014-10-26")
+    growth_window = c("2014-09-07", "2014-10-26"),
+    note = paste("the series starts late in the growth phase, so this is",
+                 "closer to R in autumn 2014 than to R0.")
   ),
   mpox = list(
     disease = "Mpox",
     # Global growth from May until the peak in early August 2022.
-    growth_window = c("2022-05-08", "2022-07-24")
+    growth_window = c("2022-05-08", "2022-07-24"),
+    note = paste("spread mostly through close-contact networks, which the",
+                 "random-walk model does not have.")
   ),
   covid_nl = list(
     disease = "COVID-19",
     # From the first case to the start of the "intelligent lockdown" on
     # 15 March 2020 (schools, cafes and restaurants closed).
-    growth_window = c("2020-02-28", "2020-03-15")
+    growth_window = c("2020-02-28", "2020-03-15"),
+    note = paste("cases are by date of publication and testing was scarce in",
+                 "March 2020, which can make early growth look faster or",
+                 "slower than it was.")
   )
 )
 
@@ -155,11 +183,26 @@ daily_cases <- function(outbreak) {
        "; R(t) needs daily or weekly counts")
 }
 
+# The weekly counts themselves, trimmed and with gaps as 0 like daily_cases,
+# each dated on the last day of its week. NULL for daily data.
+weekly_cases <- function(outbreak) {
+  if (outbreak$interval != "week") return(NULL)
+  s <- outbreak$series
+  has_count <- which(!is.na(s$cases))
+  s <- s[min(has_count):max(has_count), ]
+  s$cases[is.na(s$cases)] <- 0
+  data.frame(date = s$date, cases = s$cases)
+}
+
 # R(t) over sliding 7-day windows. Each estimate is dated on the last day of
 # its window. Windows with fewer than 12 cases are left out: the posterior
 # for R is a gamma distribution whose shape is about the number of cases in
 # the window, so its coefficient of variation is about 1 / sqrt(cases), and
 # 12 cases gives about 0.3 (Cori et al. 2013 use the same rule of thumb).
+# Windows ending less than one serial interval (its mean, rounded up) after
+# the first day with cases are left out too: the people who infected the
+# first cases are not in the data, so EpiEstim sees cases with nobody to
+# have caught them from, and R(t) there comes out too high.
 estimate_rt <- function(daily, si) {
   suppressPackageStartupMessages(library(EpiEstim))
   n <- nrow(daily)
@@ -184,7 +227,9 @@ estimate_rt <- function(daily, si) {
   })
   # EpiEstim also gives NA when the earlier cases are too far back to
   # count yet (the start of a long serial interval, as with Ebola).
-  keep <- cases_in_window >= 12 & !is.na(r[["Mean(R)"]])
+  first_case <- which(daily$cases > 0)[1]
+  after_first <- r$t_end - first_case >= ceiling(si$mean)
+  keep <- cases_in_window >= 12 & !is.na(r[["Mean(R)"]]) & after_first
 
   data.frame(
     date = format(daily$date[r$t_end[keep]]),
@@ -218,12 +263,33 @@ auto_window <- function(daily) {
 }
 
 # R0 from the growth rate in the early growth window.
-estimate_r0 <- function(daily, si, window) {
-  in_window <- daily$date >= as.Date(window[1]) & daily$date <= as.Date(window[2])
-  early <- daily[in_window, ]
-  if (nrow(early) < 5) {
+#
+# Weekly data is fitted on its weeks, not on the days daily_cases spreads
+# them over: seven equal days are one count, not seven, and fitting them as
+# seven would make the interval about 2.5 times too narrow. t still counts
+# days, so r is per day either way. A week ending on day t holds days t - 6
+# to t, so its expected count is exp(a + r t) times
+# S = 1 + exp(-r) + ... + exp(-6 r), and a, per day, is the intercept minus
+# log(S).
+estimate_r0 <- function(daily, si, window, weekly = NULL) {
+  rows <- if (is.null(weekly)) daily else weekly
+  unit <- if (is.null(weekly)) "days" else "weeks"
+  in_window <- rows$date >= as.Date(window[1]) & rows$date <= as.Date(window[2])
+  early <- rows[in_window, ]
+  needed <- if (is.null(weekly)) 5 else 4
+  if (nrow(early) < needed) {
     stop("the growth window ", window[1], " to ", window[2], " has ",
-         nrow(early), " days; R0 needs at least 5")
+         nrow(early), " ", unit, "; R0 needs at least ", needed)
+  }
+  # A window with hardly any cases gives a regression that fits whatever
+  # it is given (all zeros: R0 exactly 1; zeros then one spike: R0 in the
+  # thousands), with an interval that looks confident.
+  with_cases <- sum(early$cases > 0)
+  if (sum(early$cases) < 12 || with_cases < 3) {
+    stop("the growth window ", window[1], " to ", window[2], " has ",
+         round(sum(early$cases)), " cases on ", with_cases, " ",
+         if (with_cases == 1) sub("s$", "", unit) else unit,
+         "; R0 needs at least 12 cases on at least 3 ", unit)
   }
   early$t <- as.numeric(early$date - min(early$date))
 
@@ -233,16 +299,31 @@ estimate_r0 <- function(daily, si, window) {
   fit <- glm(round(cases) ~ t, family = quasipoisson, data = early)
   r <- coef(fit)[["t"]]
   r_ci <- confint.default(fit)["t", ]  # Wald 95% interval
+  intercept <- coef(fit)[["(Intercept)"]]
+  if (!is.null(weekly)) intercept <- intercept - log(sum(exp(-r * 0:6)))
 
   m <- si$mean
   s <- si$sd
   growth_to_r0 <- function(r) (1 + r * s^2 / m)^(m^2 / s^2)
+  # R0 is not defined when 1 + r * s^2 / m is 0 or less: cases fall faster
+  # than the serial interval allows any R to explain. A bound of the
+  # interval can be like that too; reply() prints it as null.
+  if (is.nan(growth_to_r0(r))) {
+    stop("cases fall too fast in the growth window ", window[1], " to ", window[2],
+         " for R0 to be defined (growth rate ", round(r, 3),
+         " per day); pick a window in which they grow")
+  }
 
   list(
     r0 = round(growth_to_r0(r), 3),
     r0_ci = round(growth_to_r0(unname(r_ci)), 3),
-    window = window,
-    growth_rate = round(r, 4)
+    # The days the regression used, not the window asked for: the counts
+    # can start or stop inside it.
+    window = format(range(early$date)),
+    growth_rate = round(r, 4),
+    growth_rate_ci = round(unname(r_ci), 4),
+    # a: log expected cases per day at t = 0, the first day of the window.
+    growth_intercept = round(intercept, 4)
   )
 }
 
@@ -251,7 +332,8 @@ estimate_r0 <- function(daily, si, window) {
 outbreak_settings <- function(outbreak) {
   if (!is.null(outbreak$disease)) {
     return(list(disease = outbreak$disease, pathogen = outbreak$pathogen,
-                growth_window = outbreak$growth_window))
+                growth_window = outbreak$growth_window,
+                note = outbreak$fit_note))
   }
   settings <- builtin_outbreaks[[outbreak$id]]
   if (is.null(settings)) {
@@ -268,8 +350,13 @@ fit_outbreak <- function(id) {
   settings <- outbreak_settings(outbreak)
   p <- disease_parameters(settings$disease, settings$pathogen)
   window <- settings$growth_window %||% auto_window(daily)
+  window_auto <- is.null(settings$growth_window)
+  # The outbreak's own note, then a word on an automatic window; null if
+  # there is neither.
+  notes <- c(settings$note, if (window_auto) "the first wave, picked automatically.")
+  note <- if (length(notes) > 0) paste(notes, collapse = " ") else NULL
 
-  r0 <- estimate_r0(daily, p$serial_interval, window)
+  r0 <- estimate_r0(daily, p$serial_interval, window, weekly_cases(outbreak))
   rt <- estimate_rt(daily, p$serial_interval)
   message(id, ": R0 = ", r0$r0, " (", r0$r0_ci[1], "-", r0$r0_ci[2], "), ",
           nrow(rt), " R(t) values")
@@ -281,8 +368,10 @@ fit_outbreak <- function(id) {
     r0 = r0$r0,
     r0_ci = r0$r0_ci,
     r0_window = r0$window,
-    r0_window_auto = is.null(settings$growth_window),
+    r0_window_auto = window_auto,
     growth_rate = r0$growth_rate,
+    growth_rate_ci = r0$growth_rate_ci,
+    growth_intercept = r0$growth_intercept,
     rt = rt,
     # null where nothing is known; the app then leaves that dial alone.
     params = list(
@@ -295,7 +384,8 @@ fit_outbreak <- function(id) {
       serialInterval = p$serial_interval$source,
       incubation = p$incubation$source,
       infectious = p$infectious$source
-    )
+    ),
+    note = note
   )
 }
 
