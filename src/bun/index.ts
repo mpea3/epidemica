@@ -55,27 +55,44 @@ async function listOutbreaks(): Promise<OutbreakInfo[]> {
 // Only scripts in r/, named like fit.R, so the view cannot run anything else.
 const SCRIPT_NAME = /^[a-z0-9_]+\.R$/;
 
-async function runR(script: string, args: string[]): Promise<RResult> {
+// A fit takes about 5 seconds; one still running after 2 minutes is stuck
+// and is stopped. import.R gets no limit, since a big CSV can be slow.
+const TIMEOUTS: Record<string, number> = { "fit.R": 120_000 };
+
+async function runR(script: string, args: string[], timeoutMs?: number): Promise<RResult> {
 	if (!SCRIPT_NAME.test(script)) {
 		return { ok: false, error: `not an R script name: ${script}` };
 	}
+	let timer: ReturnType<typeof setTimeout> | undefined;
 	try {
 		const proc = Bun.spawn(["Rscript", join(R_FOLDER, script), ...args], {
 			stdout: "pipe",
 			stderr: "pipe",
 			env: { ...process.env, EPIDEMICA_USER_DATA: IMPORT_FOLDER },
 		});
+		let timedOut = false;
+		if (timeoutMs) {
+			timer = setTimeout(() => {
+				timedOut = true;
+				proc.kill();
+			}, timeoutMs);
+		}
 		const [stdout, stderr, code] = await Promise.all([
 			new Response(proc.stdout).text(),
 			new Response(proc.stderr).text(),
 			proc.exited,
 		]);
+		if (timedOut) {
+			return { ok: false, error: `timeout: R took longer than ${timeoutMs! / 60_000} minutes and was stopped` };
+		}
 		if (code !== 0) {
 			return { ok: false, error: stderr.trim() || `Rscript exited with ${code}` };
 		}
 		return { ok: true, data: JSON.parse(stdout) };
 	} catch (err) {
 		return { ok: false, error: String(err) };
+	} finally {
+		clearTimeout(timer);
 	}
 }
 
@@ -133,7 +150,7 @@ const rpc = BrowserView.defineRPC<EpidemicaRPC>({
 	maxRequestTime: 10 * 60_000,
 	handlers: {
 		requests: {
-			runR: ({ script, args }) => runR(script, args),
+			runR: ({ script, args }) => runR(script, args, TIMEOUTS[script]),
 			engineSource: () => Bun.file(join(VIEWS_FOLDER, "engine", "index.js")).text(),
 			outbreaks: () => listOutbreaks(),
 			outbreak: ({ id }) => readOutbreak(id),

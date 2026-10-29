@@ -10,6 +10,11 @@
 	--state-i: var(--accent);
 	--state-r: #2f74a8;
 	--state-d: var(--fg);
+	/* Fitted (estimated by R) lines and bands; a reported curve drawn behind
+	   a simulated one. */
+	--fitted: #7b3294;
+	--fitted-band: rgba(123, 50, 148, 0.15);
+	--reported-band: rgba(107, 107, 107, 0.18);
 	color-scheme: light dark;
 }
 
@@ -23,6 +28,9 @@
 		--state-s: #555555;
 		--state-e: #e0a63a;
 		--state-r: #62a6dc;
+		--fitted: #c2a5cf;
+		--fitted-band: rgba(194, 165, 207, 0.22);
+		--reported-band: rgba(154, 154, 154, 0.22);
 	}
 }
 
@@ -102,9 +110,11 @@ nav button[aria-pressed="true"] {
 	font-family: inherit;
 }
 
-/* Two lines each when comparing. */
+/* Two lines each when comparing, and the fit and load notes. */
 #outbreak-summary,
-#outbreak-source {
+#outbreak-source,
+#fit-summary,
+#sim-history-note {
 	white-space: pre-line;
 }
 
@@ -230,7 +240,7 @@ button:disabled {
 /* label | slider | value, then the off box or a note underneath. */
 .dial {
 	display: grid;
-	grid-template-columns: 12rem minmax(0, 1fr) 5rem;
+	grid-template-columns: 12rem minmax(0, 1fr) 6rem;
 	align-items: center;
 	gap: 0 0.5rem;
 }

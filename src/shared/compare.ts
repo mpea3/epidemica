@@ -24,6 +24,12 @@ export function daysBetween(start: string, date: string): number {
 	return Math.round((Date.parse(date) - Date.parse(start)) / DAY_MS);
 }
 
+// The calendar date a number of days after start, the other way round from
+// daysBetween: a chart counting days can still say which date a point is.
+export function dateAfter(start: string, days: number): string {
+	return new Date(Date.parse(start) + days * DAY_MS).toISOString().slice(0, 10);
+}
+
 // Day 0 is the first row with more than zero cases: some series open with
 // rows of nothing before the outbreak arrives. With no cases at all, the
 // first row.
@@ -44,10 +50,11 @@ function lastCounted(outbreak: Outbreak): number {
 }
 
 // Rows before day 0 and after the last count are dropped, the same for
-// every column so the panels end together.
-export function align(outbreak: Outbreak, column: string): Aligned {
+// every column so the panels end together. Day 0 is the first case unless
+// start says otherwise: loading into the simulator counts from the first
+// day R0 was fitted on, which can come after the first case.
+export function align(outbreak: Outbreak, column: string, start = firstCase(outbreak)): Aligned {
 	if (!comparable(outbreak)) throw new Error(`${outbreak.id} counts per year and cannot be compared`);
-	const start = firstCase(outbreak);
 	const last = lastCounted(outbreak);
 	const divide = PER_DAY[outbreak.interval as keyof typeof PER_DAY];
 	const source = outbreak.columns[column] ?? [];
@@ -67,16 +74,18 @@ export function align(outbreak: Outbreak, column: string): Aligned {
 // row that day, null where it has a row but no number.
 export type Merged = (number | null | undefined)[];
 
-// uPlot wants one x column shared by every series: the days of both, in
-// order. A day only one outbreak has a row for (a weekly series between
-// its weeks, the shorter outbreak after it ended) is undefined for the
-// other. uPlot draws a line across undefined but leaves a gap at null, so
-// a weekly series stays one line and a missing number stays missing.
-export function mergeDays(a: Aligned, b: Aligned): [number[], Merged, Merged] {
-	const days = [...new Set([...a.days, ...b.days])].sort((x, y) => x - y);
-	const lookup = (s: Aligned): Merged => {
+// uPlot wants one x column shared by every series: the days of all of
+// them, in order. A day only some series have a row for (a weekly series
+// between its weeks, the shorter outbreak after it ended) is undefined for
+// the others. uPlot draws a line across undefined but leaves a gap at
+// null, so a weekly series stays one line and a missing number stays
+// missing. Any number of series can share the column: two outbreaks, or
+// their counts and fitted R(t) together.
+export function mergeDays(...series: Pick<Aligned, "days" | "values">[]): [number[], ...Merged[]] {
+	const days = [...new Set(series.flatMap((s) => s.days))].sort((x, y) => x - y);
+	const lookup = (s: Pick<Aligned, "days" | "values">): Merged => {
 		const byDay = new Map(s.days.map((day, i) => [day, s.values[i]]));
 		return days.map((day) => byDay.get(day));
 	};
-	return [days, lookup(a), lookup(b)];
+	return [days, ...series.map(lookup)];
 }

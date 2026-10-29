@@ -1,12 +1,46 @@
 // The Simulate tab: a setting, the dials, run controls and the canvas. The
 // engine runs in a Web Worker (src/engine/worker.ts); this file only sends
 // it messages and draws what comes back.
+//
+// "from history" loads a past outbreak: R fits it (the same fit cache as the
+// History tab), four dials take the fitted values (fromhistory.ts says which
+// and why), and the outbreak's reported cases are drawn behind the run.
 import { PRESET_IDS, type PresetId, preset } from "../engine/presets";
 import { type Counts, type Params, type Settings, State, TICKS_PER_DAY } from "../engine/types";
 import type { FromWorker, ToWorker } from "../engine/worker";
+import { comparable } from "../shared/compare";
+import { growthLine } from "../shared/fit";
+import type { Outbreak, OutbreakInfo } from "../shared/outbreak";
 import { type AgentFrame, STATE_TOKENS, drawAgents, fitCanvas } from "./canvas";
 import { DIAL_GROUPS, DIALS, type Dial, formatDial } from "./dials";
-import { addDay, initSimChart, resetSimChart } from "./simchart";
+import type { FitCache } from "./fits";
+import {
+	type Loaded,
+	applyLoaded,
+	describeLoad,
+	describeOverlay,
+	growthCheck,
+	loadedFrom,
+	restoreFrom,
+} from "./fromhistory";
+import { label } from "./history";
+import { addDay, initSimChart, resetSimChart, setReported } from "./simchart";
+
+// Where the tab gets past outbreaks and their fits. index.ts passes in the
+// same RPC requests and fit cache as the History tab's.
+export interface SimulateSource {
+	list: () => Promise<OutbreakInfo[]>;
+	load: (id: string) => Promise<Outbreak>;
+	fits: FitCache;
+	log: (text: string) => void;
+}
+
+// What the rest of the app can ask of the tab: History's "load into
+// simulator", and a fresh list after an import.
+export interface SimulateHandle {
+	loadFromHistory(id: string): Promise<void>;
+	refreshList(): Promise<void>;
+}
 
 const STATE_NAMES = ["susceptible", "exposed", "infectious", "recovered", "dead"] as const;
 
@@ -27,6 +61,10 @@ const canvas = document.querySelector<HTMLCanvasElement>("#sim-canvas")!;
 const statusLine = document.querySelector<HTMLParagraphElement>("#sim-status")!;
 const dialsForm = document.querySelector<HTMLFormElement>("#sim-dials")!;
 const chartBox = document.querySelector<HTMLDivElement>("#sim-chart")!;
+const historyPicker = document.querySelector<HTMLSelectElement>("#sim-history")!;
+const historyNote = document.querySelector<HTMLParagraphElement>("#sim-history-note")!;
+const growthNote = document.querySelector<HTMLParagraphElement>("#sim-growth")!;
+const chartNote = document.querySelector<HTMLParagraphElement>("#sim-chart-note")!;
 
 // The inputs for one dial; off is the checkbox of a dial that can be null.
 interface DialInputs {
@@ -42,6 +80,8 @@ const number = (n: number) => n.toLocaleString("en-GB");
 let settings: Settings;
 let params: Params;
 let running = false;
+// The outbreak loaded from history, if any.
+let loaded: Loaded | null = null;
 let latest: AgentFrame | null = null;
 let drawQueued = false;
 
@@ -144,6 +184,42 @@ function changeDial(dial: Dial, send: (msg: ToWorker) => void): void {
 	output.value = formatDial(dial, value);
 	(params as Record<keyof Params, number | null>)[dial.key] = value;
 	if (!dial.needsReset) send({ type: "set", key: dial.key, value });
+	showLoadNotes();
+}
+
+// What loading set and left alone, and the growth check, for the dials as
+// they are now: both quote dial values (fatality "stays at 1%"), so they are
+// written again after every dial change and setting pick.
+function showLoadNotes(): void {
+	growthNote.textContent = loaded ? growthCheck(loaded.fit, params) : "";
+	if (loaded) {
+		historyNote.className = "";
+		historyNote.textContent = describeLoad(loaded, params);
+	}
+}
+
+// The loaded outbreak on the chart and in the note under it.
+function showOverlay(): void {
+	if (!loaded) {
+		setReported(null);
+		chartNote.textContent = "";
+		return;
+	}
+	setReported({
+		name: loaded.name,
+		start: loaded.fit.window[0],
+		reported: loaded.reported,
+		growth: growthLine(loaded.fit),
+		windowDays: loaded.windowDays,
+		agents: settings.agents,
+	});
+	chartNote.textContent = describeOverlay(loaded, settings);
+}
+
+// "R could not fit X: ..." already names the outbreak; other errors do not.
+function loadError(name: string, error: string): string {
+	const text = error.replace(/\.$/, "");
+	return `${text.startsWith("R could not fit") ? text : `could not fit ${name}: ${text}`}. dials not changed.`;
 }
 
 // Put params on the sliders, after a setting is picked.
@@ -166,8 +242,13 @@ function describeSetting(s: Settings): string {
 	return `${number(s.agents)} people on ${s.worldSize} x ${s.worldSize} (${density.toFixed(2)} per square unit), ${s.initialInfected} infected at the start`;
 }
 
-export function initSimulate(worker: Worker): void {
+export function initSimulate(worker: Worker, source: SimulateSource): SimulateHandle {
 	const send = (msg: ToWorker) => worker.postMessage(msg);
+	let outbreaks: OutbreakInfo[] = [];
+	// The first list; a load from History may come in before it is there.
+	let listReady: Promise<void> = Promise.resolve();
+	// Counts loads; only the last one asked for is applied.
+	let loadToken = 0;
 
 	// A fresh run from the current setting, seed and dials. Copies, so the
 	// dials can keep changing params without touching the worker's copy.
@@ -181,17 +262,89 @@ export function initSimulate(worker: Worker): void {
 		send({ type: "reset", settings: { ...settings, seed }, params: { ...params } });
 	}
 
+	// A loaded outbreak stays loaded: its four dials go on top of the new
+	// setting's ("measles in a village" keeps measles' R0).
 	function pickSetting(id: PresetId): void {
 		const p = preset(id);
 		settings = p.settings;
-		params = p.params;
+		params = loaded ? applyLoaded(p.params, loaded.values) : p.params;
 		settingInfo.textContent = describeSetting(settings);
 		showDials();
+		showOverlay();
+		showLoadNotes();
 		reset();
+	}
+
+	// Load an outbreak ("" for nothing): fit it if it is not fitted yet, set
+	// the four dials, draw it behind the run and reset (without starting, so
+	// day 0 lines up with the reported curve). A failed fit changes nothing.
+	async function loadFromHistory(id: string): Promise<void> {
+		const token = ++loadToken;
+		await listReady;
+		if (token !== loadToken) return;
+		if (historyPicker.value !== id) historyPicker.value = id;
+		if (!id) {
+			// Also clears "R is fitting ..." of a load this one cancels.
+			historyNote.textContent = "";
+			historyNote.className = "";
+			if (!loaded) return;
+			params = restoreFrom(params, preset(settingPicker.value as PresetId).params);
+			loaded = null;
+			showDials();
+			showOverlay();
+			showLoadNotes();
+			reset();
+			return;
+		}
+		const name = outbreaks.find((o) => o.id === id)?.name ?? id;
+		if (!source.fits.peek(id)) {
+			historyNote.className = "muted";
+			historyNote.textContent = `R is fitting ${name} (about 5 seconds)... the current run carries on.`;
+		}
+		let outbreak: Outbreak;
+		let result: Awaited<ReturnType<FitCache["get"]>>;
+		try {
+			[outbreak, result] = await Promise.all([source.load(id), source.fits.get(id, name)]);
+		} catch (err) {
+			result = { ok: false, error: String(err) };
+		}
+		if (token !== loadToken) return;
+		if (!result.ok) {
+			historyNote.className = "error";
+			historyNote.textContent = loadError(name, result.error);
+			source.log(`load ${id} failed: ${result.error}`);
+			historyPicker.value = loaded?.id ?? "";
+			return;
+		}
+		loaded = loadedFrom(outbreak!, result.fit);
+		params = applyLoaded(params, loaded.values);
+		// The list may have been rebuilt while R was fitting.
+		historyPicker.value = id;
+		source.log(`loaded ${id} into the simulator`);
+		showDials();
+		showOverlay();
+		showLoadNotes();
+		reset();
+		runButton.focus();
+	}
+
+	// The outbreaks that can be loaded: not the yearly ones, which R cannot fit.
+	async function refreshList(): Promise<void> {
+		try {
+			outbreaks = (await source.list()).filter(comparable);
+		} catch (err) {
+			source.log(`simulate: could not list outbreaks: ${err}`);
+			return;
+		}
+		// What the picker shows, which can be a load still being fitted.
+		const keep = historyPicker.value;
+		historyPicker.replaceChildren(new Option("nothing", ""), ...outbreaks.map((o) => new Option(label(o), o.id)));
+		historyPicker.value = outbreaks.some((o) => o.id === keep) ? keep : "";
 	}
 
 	for (const id of PRESET_IDS) settingPicker.add(new Option(preset(id).label.toLowerCase(), id));
 	settingPicker.addEventListener("change", () => pickSetting(settingPicker.value as PresetId));
+	historyPicker.addEventListener("change", () => loadFromHistory(historyPicker.value));
 	resetButton.addEventListener("click", reset);
 	runButton.addEventListener("click", () => {
 		send({ type: running ? "pause" : "start" });
@@ -233,4 +386,6 @@ export function initSimulate(worker: Worker): void {
 	initSimChart(chartBox);
 	changeSpeed();
 	pickSetting(settingPicker.value as PresetId);
+	listReady = refreshList();
+	return { loadFromHistory, refreshList };
 }

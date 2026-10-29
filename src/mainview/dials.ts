@@ -27,10 +27,12 @@ export interface Dial {
 	needsReset?: boolean;
 }
 
+// R0 and the two periods have fine steps so a value fitted in History fits
+// on them: near R = 1, rounding 1.347 to 1.3 would cut R - 1 by about 15%.
 export const DIALS: Dial[] = [
-	{ key: "r0", group: "spread", label: "R0", min: 0.5, max: 20, step: 0.1, unit: "number" },
-	{ key: "incubationDays", group: "spread", label: "incubation period", min: 0, max: 21, step: 0.5, unit: "days" },
-	{ key: "infectiousDays", group: "spread", label: "infectious period", min: 1, max: 40, step: 0.5, unit: "days" },
+	{ key: "r0", group: "spread", label: "R0", min: 0.5, max: 20, step: 0.01, unit: "number" },
+	{ key: "incubationDays", group: "spread", label: "incubation period", min: 0, max: 21, step: 0.1, unit: "days" },
+	{ key: "infectiousDays", group: "spread", label: "infectious period", min: 1, max: 40, step: 0.1, unit: "days" },
 	{ key: "shareAsymptomatic", group: "symptoms", label: "share asymptomatic", min: 0, max: 1, step: 0.01, unit: "share" },
 	{
 		key: "asymptomaticInfectiousness",
@@ -78,11 +80,33 @@ export const DIALS: Dial[] = [
 	{ key: "testing", group: "interventions", label: "testing and isolation", min: 0, max: 1, step: 0.01, unit: "share" },
 ];
 
+export function dialFor(key: keyof Params): Dial {
+	const dial = DIALS.find((d) => d.key === key);
+	if (!dial) throw new Error(`no dial for ${key}`);
+	return dial;
+}
+
 // Enough decimals to show one step: a step of 0.5 needs 1, a step of 10
-// needs none. Trailing zeros go, so 5.0 days is "5 days".
+// needs none.
+function decimals(step: number): number {
+	return Math.max(0, Math.ceil(-Math.log10(step) - 1e-9));
+}
+
+// Trailing zeros go, so 5.0 days is "5 days".
 function round(value: number, step: number): string {
-	const decimals = Math.max(0, Math.ceil(-Math.log10(step) - 1e-9));
-	return String(Number(value.toFixed(decimals)));
+	return String(Number(value.toFixed(decimals(step))));
+}
+
+// Puts a value from outside the sliders (a fit from History) where its slider
+// would: inside min..max and on a step. min + k * step leaves float noise
+// (3 * 0.1 is 0.30000000000000004), so it is rounded to the step's
+// decimals as well. clamped says whether the value was outside the range.
+export function snapToDial(dial: Dial, value: number): { value: number; clamped: boolean } {
+	const clamped = value < dial.min || value > dial.max;
+	const inRange = Math.min(dial.max, Math.max(dial.min, value));
+	const onStep = dial.min + Math.round((inRange - dial.min) / dial.step) * dial.step;
+	const clean = Number(Math.min(dial.max, onStep).toFixed(decimals(dial.step)));
+	return { value: clean, clamped };
 }
 
 // "2.5", "5 days", "day 30", "30%", "0.1%" or "off".
@@ -91,8 +115,10 @@ export function formatDial(dial: Dial, value: number | null): string {
 	switch (dial.unit) {
 		case "number":
 			return round(value, dial.step);
-		case "days":
-			return `${round(value, dial.step)} ${value === 1 ? "day" : "days"}`;
+		case "days": {
+			const text = round(value, dial.step);
+			return `${text} ${text === "1" ? "day" : "days"}`;
+		}
 		case "day":
 			return `day ${round(value, dial.step)}`;
 		case "share":

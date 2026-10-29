@@ -1,5 +1,6 @@
-// All engine tests live in this one file: the Cottontail test runner runs
-// nothing (and still passes) when it is given more than one test file.
+// The engine's tests; its early growth rate is checked in growth.test.ts.
+// Run each test file on its own (hutch run test does): the Cottontail test
+// runner runs nothing, and still passes, when it is given more than one.
 import { describe, expect, test } from "bun:test";
 import { Engine } from "./engine";
 import { PRESET_IDS, preset } from "./presets";

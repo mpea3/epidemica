@@ -28,6 +28,8 @@
 				<select id="compare" disabled>
 					<option value="">nothing</option>
 				</select>
+				<button type="button" id="fit" disabled>fit</button>
+				<button type="button" id="load-into-simulator" disabled>load into simulator</button>
 				<button type="button" id="import-pick">import csv</button>
 			</p>
 			<p id="import-status" class="muted"></p>
@@ -64,6 +66,7 @@
 				<div id="import-result"></div>
 			</form>
 			<p id="outbreak-summary"></p>
+			<p id="fit-summary" class="muted"></p>
 			<p id="compare-note" class="muted"></p>
 			<div id="outbreak-chart"></div>
 			<p id="outbreak-source" class="muted"></p>
@@ -73,6 +76,7 @@
 			<h2>simulate</h2>
 			<p class="controls">
 				<label>setting <select id="sim-setting"></select></label>
+				<label>from history <select id="sim-history"><option value="">nothing</option></select></label>
 				<label>seed <input id="sim-seed" type="number" min="1" step="1" value="1"></label>
 				<button type="button" id="sim-run">start</button>
 				<button type="button" id="sim-step">step</button>
@@ -80,6 +84,8 @@
 				<label>speed <input id="sim-speed" type="range"> <output id="sim-speed-value"></output></label>
 			</p>
 			<p id="sim-setting-info" class="muted"></p>
+			<p id="sim-history-note"></p>
+			<p id="sim-growth" class="muted"></p>
 
 			<div class="sim-layout">
 				<div class="sim-world">
@@ -90,6 +96,7 @@
 				<form id="sim-dials"></form>
 			</div>
 			<div id="sim-chart"></div>
+			<p id="sim-chart-note" class="muted"></p>
 		</section>
 	</main>
 

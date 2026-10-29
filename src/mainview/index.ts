@@ -1,9 +1,10 @@
 import { Electroview } from "electrobun/view";
 import type { FromWorker } from "../engine/worker";
 import type { EpidemicaRPC } from "../shared/rpc";
+import { fitCache } from "./fits";
 import { initHistory } from "./history";
 import { initImport } from "./import";
-import { initSimulate } from "./simulate";
+import { type SimulateHandle, initSimulate } from "./simulate";
 
 const rpc = Electroview.defineRPC<EpidemicaRPC>({
 	// R fits and the CSV file dialog (see pickCsv in src/bun/index.ts).
@@ -20,15 +21,24 @@ const engineStatus = document.querySelector<HTMLOutputElement>("#engine-status")
 
 // Tabs: show the section whose id matches the button's data-tab.
 const tabs = document.querySelectorAll<HTMLButtonElement>("nav button");
-for (const tab of tabs) {
-	tab.addEventListener("click", () => {
-		for (const other of tabs) {
-			const active = other === tab;
-			other.setAttribute("aria-pressed", String(active));
-			document.getElementById(other.dataset["tab"]!)!.hidden = !active;
-		}
-	});
+function showTab(name: string): void {
+	for (const tab of tabs) {
+		const active = tab.dataset["tab"] === name;
+		tab.setAttribute("aria-pressed", String(active));
+		document.getElementById(tab.dataset["tab"]!)!.hidden = !active;
+	}
 }
+for (const tab of tabs) tab.addEventListener("click", () => showTab(tab.dataset["tab"]!));
+
+// One cache of R's fits for both tabs, so fitting in History and loading
+// into Simulate run R once between them (see fits.ts).
+const fits = fitCache((id) => electroview.rpc!.request.runR({ script: "fit.R", args: ["--outbreak", id] }));
+const outbreaks = {
+	list: () => electroview.rpc!.request.outbreaks(),
+	load: (id: string) => electroview.rpc!.request.outbreak({ id }),
+	fits,
+	log,
+};
 
 // Checks the main process can run R and get JSON back.
 async function pingR() {
@@ -52,29 +62,35 @@ async function startEngine(): Promise<Worker> {
 	return new Worker(url);
 }
 
-startEngine()
-	.then((engine) => {
-		engine.addEventListener("message", (event: MessageEvent<FromWorker>) => {
-			if (event.data.type === "ready") {
-				engineStatus.textContent = "engine: ready";
-				log(engineStatus.textContent);
-			}
-		});
-		initSimulate(engine);
-	})
-	.catch((err) => {
-		engineStatus.textContent = `engine failed: ${err}`;
-		log(engineStatus.textContent);
+// The Simulate tab, once the engine has started. History's "load into
+// simulator" can be pressed before that, so it waits for this.
+const simulateReady: Promise<SimulateHandle> = startEngine().then((engine) => {
+	engine.addEventListener("message", (event: MessageEvent<FromWorker>) => {
+		if (event.data.type === "ready") {
+			engineStatus.textContent = "engine: ready";
+			log(engineStatus.textContent);
+		}
 	});
+	return initSimulate(engine, outbreaks);
+});
+simulateReady.catch((err) => {
+	engineStatus.textContent = `engine failed: ${err}`;
+	log(engineStatus.textContent);
+});
 
 pingR();
 
+// History's "load into simulator": show the Simulate tab, which then fits
+// and loads the outbreak itself and says what it is doing.
+function loadIntoSimulator(id: string): void {
+	showTab("simulate");
+	simulateReady.then((simulate) => simulate.loadFromHistory(id)).catch(() => {
+		// The engine failed to start; the footer already says so.
+	});
+}
+
 // index.html loads this bundle as a classic script, so no top-level await.
-initHistory({
-	list: () => electroview.rpc!.request.outbreaks(),
-	load: (id) => electroview.rpc!.request.outbreak({ id }),
-	log,
-}).then((reloadHistory) =>
+initHistory(outbreaks, loadIntoSimulator).then((reloadHistory) =>
 	initImport(
 		{
 			pickCsv: () => electroview.rpc!.request.pickCsv(),
@@ -82,6 +98,10 @@ initHistory({
 			importCsv: (form) => electroview.rpc!.request.importCsv(form),
 			log,
 		},
-		reloadHistory,
+		// After an import both tabs' lists need the new dataset.
+		async (select) => {
+			await reloadHistory(select);
+			(await simulateReady).refreshList();
+		},
 	),
 );

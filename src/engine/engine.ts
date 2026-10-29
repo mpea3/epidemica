@@ -8,8 +8,8 @@ import { type Counts, type Params, type Settings, State, TICKS_PER_DAY, type Wor
 // A stay in Exposed or Infectious (and a stretch of immunity) lasts the dial
 // value times a factor drawn uniformly from this range. The average stay is
 // the dial value, but not everyone recovers on the same day.
-const STAY_MIN = 0.5;
-const STAY_MAX = 1.5;
+export const STAY_MIN = 0.5;
+export const STAY_MAX = 1.5;
 
 // Chance per tick that a walking agent picks a new direction. In between it
 // walks in a straight line, which looks more like people than jitter does.
@@ -19,7 +19,7 @@ const TURN_CHANCE = 0.05;
 // contacts that still happen pass the virus on with this share of the usual
 // chance (fewer visits, shorter meetings, more distance).
 const LOCKDOWN_MOVEMENT = 0.25;
-const LOCKDOWN_CONTACT = 0.3;
+export const LOCKDOWN_CONTACT = 0.3;
 
 // A symptomatic case that gets tested is isolated this many ticks after its
 // symptoms start: waiting for the test and the result.
